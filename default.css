@@ -1,0 +1,52 @@
+/*default */
+
+a {
+    text-decoration: none;
+}
+
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: lightgrey;
+}
+
+h1 {
+    font-size: 5em;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+
+/* 404 error */
+
+/*btn*/
+
+.classic_btn {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    text-shadow: rgb(68, 68, 68) 1px 1px 0px;
+    color: black;
+    background-color: #3399ff;
+    border-style: solid;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: grey;
+    padding: 1em;
+    font-size: 0.8rem;
+}
+
+.classic_btn:hover {
+    transition-timing-function: ease-out;
+    transition: 0.2s;
+    background-color: #0066ff;
+}
