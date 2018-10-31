@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Identification</title>
+    <link rel="stylesheet" href="css/default.css">
+    <link rel="stylesheet" href="css/log.css">
+</head>
+<body>
+<form action="<%= url %>log_in" class="log-in" method="post">
+    <label for="email-log_in">email: </label>
+    <input class="email" type="email" name="email" class="email" id="email-log_in">
+    <label for="passwd-log_in">mot de passe: </label>
+    <input type="text" class="passwd" name="passwd" id="passwd-log_in">
+    <input type="submit" value="envoyer">
+</form>
+<form action="<%= url %>sign_in" class="sign-in" method="post">
+    <label for="email-sign_in">email: </label>
+    <input type="email" name="email" class="email" id="email-sign_in">
+    <label for="lastname">Nom:</label>
+    <input type="text" class="text" name="lastname" id="lastname">
+    <label for="firstname">Prénom</label>
+    <input type="text" class="text" name="firstname" id="firstname">
+    <input type="submit" value="envoyer">
+</form>
+</body>
+</html>

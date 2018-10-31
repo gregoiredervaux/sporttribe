@@ -1,0 +1,144 @@
+/*default */
+
+a {
+    text-decoration: none;
+}
+
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: lightgrey;
+}
+
+h1 {
+    font-size: 5em;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+/*grid*/
+
+body {
+    display: grid;
+    grid-template: 10vh 10vh auto 10vh / 2fr 3fr 3fr;
+    grid-gap: 10px;
+    background-color: white;
+}
+
+header {
+    grid-column: 1/4;
+    grid-row: 1/2;
+    background: darkorange;
+}
+
+nav {
+    grid-column: 1/4;
+    grid-row:2/3;
+    background-color: green;
+}
+
+nav .hidable_info {
+    display: none;
+}
+
+section {
+
+    grid-column: 1/4;
+    grid-row: 3/4;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 40vh));
+    grid-auto-rows: 300px;
+}
+
+article {
+    background-color: aqua;
+}
+
+footer {
+    grid-column: 1/4;
+    grid-row: 4/5;
+    background-color: darkblue;
+}
+
+
+/* tab */
+@media screen  and (min-width:1024px) and (max-width: 1280px){
+
+    article:first-of-type {
+        grid-column: span 2;
+    }
+
+    article {
+        background-color: cadetblue;
+    }
+}
+
+
+
+/*computer*/
+@media screen  and (min-width:1280px) and (min-aspect-ratio:16/9){
+
+    nav {
+        grid-column: 1/2;
+    }
+
+    section {
+        grid-column: 2/4;
+    }
+
+    article:first-of-type {
+        grid-column: span 2;
+    }
+
+    article {
+        background-color: lightblue;
+    }
+
+
+
+
+}
+
+/*Tv*/
+@media screen  and (min-width:1280px){
+
+}
+
+
+/* 404 error */
+
+#404 img {
+    height: 20vh;
+}
+
+/*btn*/
+
+.classic_btn {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    text-shadow: rgb(68, 68, 68) 1px 1px 0px;
+    color: black;
+    background-color: #3399ff;
+    border-style: solid;
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: grey;
+    padding: 1em;
+    font-size: 0.8rem;
+}
+
+.classic_btn:hover {
+    transition-timing-function: ease-out;
+    transition: 0.2s;
+    background-color: #0066ff;
+}
