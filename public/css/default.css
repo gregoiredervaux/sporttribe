@@ -4,6 +4,10 @@ a {
     text-decoration: none;
 }
 
+.error{
+    background-color: lightcoral;
+    color: black;
+}
 
 body {
     display: flex;

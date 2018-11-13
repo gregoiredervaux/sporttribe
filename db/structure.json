@@ -5,9 +5,7 @@
     "description": "tournois de bad",
     "players": [
       0,
-      1,
-      2,
-      3
+      1
     ],
     "date": "2018-10-29 20:20:00",
     "open": true,
@@ -54,7 +52,7 @@
       "first_name": "guillaume",
       "last_name": "Denac",
       "email": "gui@dev.fr",
-      "encrypted_password": "0000000000",
+      "encrypted_password": "motdepasse",
       "reset_password_token": "",
       "reset_password_token_sent_at": "",
       "sign_in_count": 0,

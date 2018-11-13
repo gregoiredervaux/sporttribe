@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="css/log.css">
 </head>
 <body>
+
+    <% for(var i=0; i<ls_msg.length; i++) {%>
+        <p class="ls_msg[i]['class]"><%= ls_msg[i]['value'] %></p>
+    <% } %>
+
 <form action="<%= url %>log_in" class="log-in" method="post">
     <label for="email-log_in">email: </label>
     <input class="email" type="email" name="email" class="email" id="email-log_in">
@@ -21,6 +26,10 @@
     <input type="text" class="text" name="lastname" id="lastname">
     <label for="firstname">Prénom</label>
     <input type="text" class="text" name="firstname" id="firstname">
+    <label for="new_passwd">Prénom</label>
+    <input type="text" class="text" name="new_passwd" id="new_passwd">
+    <label for="conf_passwd">Prénom</label>
+    <input type="text" class="text" name="conf_passwd" id="conf_passwd">
     <input type="submit" value="envoyer">
 </form>
 </body>
