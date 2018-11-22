@@ -1,5 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/db_sporttribe";
+var url = "mongodb://localhost:27017/";
 
 function erreur_db(err, res) {
     if (err) throw err;

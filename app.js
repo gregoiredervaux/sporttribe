@@ -1,17 +1,20 @@
 // build dependencies:
 
-let express = require("express");
-let bodyParser = require('body-parser');
-let http = require("http");
-let db_utils = require("./db/db_utils.js");
-let gestion_login = require("./lib/gestion_login.js");
+const express = require("express");
+const path = require("path");
+const http = require("http");
+const bodyParser = require('body-parser');
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const db_utils = require("./db/db_utils.js");
+const gestion_login = require("./lib/gestion_login.js");
 
 // build the app
-let app = express();
+const app = express();
 
 // config views
 app.set('view engine', 'ejs');
-app.set('views', './views');
+app.set('views', path.join(__dirname, "views"));
 
 // config static content
 
@@ -21,59 +24,47 @@ app.use(express.static(__dirname + '/public'));
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(cookieParser());
+app.use('/public', express.static(path.join(__dirname, "public")));
 
 
 //routes
+const index = require("./routes/index");
+const event = require("./routes/event");
+const group = require("./routes/group");
+const login = require("./routes/login");
+const profil = require("./routes/profil");
+
+// initialize the session
+app.use(session({
+    secret: 'sporttribe5805',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
+app.use("/login", login);
+app.use("/group", group);
+app.use("/event", event);
+app.use("/profil", profil);
+app.use("/", index);
 
 
-//dans un premier temps on vérifie que l'utilisateur est logé
-
-
-
-// en suite, on l'aiguille
-app.get('/', function (req, res) {
-
-    res.render('user_log', {
-        url: "http://localhost:3000/",
-        ls_msg: [{
-            "class": "error_msg",
-            "value": ""
-        }]
-    });
+// catch 404 and forward to error handler
+app.use((req, res, next)=> {
+    const err = new Error("Not Found");
+    err.status = 404;
+    next(err);
 });
 
-app.get('/log_in', (req, res) => {
+// error handler
+app.use((err, req, res) => {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get("env") === "development" ? err : {};
 
-    res.render('user_log', {
-        url: "http://localhost:3000/",
-        ls_msg: [{
-            "class": "error_msg",
-            "value": "vous n etes pas logué"
-        }]
-    })
+    // render the error page
+    res.status(err.status || 500);
+    res.render("error", err);
 });
 
-app.post('/log_in', function (req, res) {
-
-    const email = req.body.email;
-    const passwd = req.body.passwd;
-    res_req_bd = db_utils.dbquery.exist("user", [{"key": "email", "value": email}, {
-        "key": "encrypted_password",
-        "value": passwd
-    }]);
-    if (res_req_bd) {
-        res.send([req.body, res_req_bd]);
-    } else {
-        res.render("user_log", {
-            url: "http://localhost:3000/",
-            ls_msg: [{
-                "class": "error_msg",
-                "value": "ce n'est pas le bon user ou pas le bon mot de passe"
-            }]
-        });
-    }
-});
-
-
-// Start
-http.createServer(app).listen(3000);
+module.exports = app;

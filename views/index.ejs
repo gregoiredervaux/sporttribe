@@ -1,43 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Sporttribe</title>
-    <link rel="stylesheet" type="text/css" href="css/default.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=5.0"/>
+    <% include ./partial/head.ejs %>
 </head>
 <body>
-
 <header>
-
+    <% include ./partial/header.ejs %>
 </header>
 
-<nav>
-
+<nav class="main">
+    <ul>
+        <li>1er sport</li>
+        <li>2eme sport</li>
+        <li>3eme sport</li>
+    </ul>
 </nav>
-<section>
-    <article>
-        <p>article</p>
-    </article>
-    <article>
-        <p>article</p>
-    </article>
-    <article>
-        <p>article</p>
-    </article>
-    <article>
-        <p>article</p>
-    </article>
-    <article>
-        <p>article</p>
-    </article>
-    <article>
-        <p>article</p>
-    </article>
-</section>
+<main>
+
+    <h1><%= message.title %></h1>
+    <p class="<%= message.class %>"><%= message.p %></p>
+</main>
+
 <footer>
-
+    <% include ./partial/footer.ejs %>
 </footer>
-
 </body>
 </html>

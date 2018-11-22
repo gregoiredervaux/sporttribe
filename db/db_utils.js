@@ -1,4 +1,4 @@
-var structure = require('./structure.json');
+// var structure = require('./structure.json');
 
 
 exports.dbquery = {
