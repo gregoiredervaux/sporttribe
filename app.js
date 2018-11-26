@@ -6,11 +6,13 @@ const http = require("http");
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
-const db_utils = require("./db/db_utils.js");
-const gestion_login = require("./lib/gestion_login.js");
 
 // build the app
 const app = express();
+
+let appNS = {
+
+};
 
 // config views
 app.set('view engine', 'ejs');
@@ -35,6 +37,13 @@ const group = require("./routes/group");
 const login = require("./routes/login");
 const profil = require("./routes/profil");
 
+const api = {
+    group: require("/routes/api/group"),
+    message: require("/routes/api/message"),
+    event: require("/routes/api/event"),
+    profil: require("/routes/api/profil")
+}
+
 // initialize the session
 app.use(session({
     secret: 'sporttribe5805',
@@ -42,6 +51,12 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false }
 }));
+
+app.use("/api/group", api.group);
+app.use("/api/message", api.message);
+app.use("/api/event", api.event);
+app.use("/api/profil", api.profil);
+
 app.use("/login", login);
 app.use("/group", group);
 app.use("/event", event);
