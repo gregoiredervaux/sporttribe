@@ -6,13 +6,10 @@ const http = require("http");
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const init = require ('./db/init').init;
 
 // build the app
 const app = express();
-
-let appNS = {
-
-};
 
 // config views
 app.set('view engine', 'ejs');
@@ -42,7 +39,9 @@ const api = {
     message: require("/routes/api/message"),
     event: require("/routes/api/event"),
     profil: require("/routes/api/profil")
-}
+};
+
+app.use(init);
 
 // initialize the session
 app.use(session({
