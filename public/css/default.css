@@ -51,7 +51,14 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: lightgrey;
+    background-image: url('../img/tennis.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+header, footer {
+    background-color: white;
 }
 
 /*titre*/
@@ -100,7 +107,6 @@ body {
     display: grid;
     grid-template:auto auto auto auto auto / 5vw 2fr 3fr 3fr 5vw;
     grid-gap: 10px;
-    background-color: white;
     margin:0;
 }
 

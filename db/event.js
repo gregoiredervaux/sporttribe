@@ -1,7 +1,7 @@
-var url = require ('/config/db');
-var db = require('./utils').db;
+var url = require('../config/db');
+var db = require('./utils');
 
-let collection = 'activity'
+let collection = 'activity';
 
 class Event {
 
@@ -20,10 +20,10 @@ class Event {
     captain_id;
     groupe_id;
 
-    constructor(event){
-        if (Event.isValid(event)){
-            for (let property in this){
-                if (property){
+    constructor(event) {
+        if (Event.isValid(event)) {
+            for (let property in this) {
+                if (property) {
                     this[property] = event[property];
                 }
             }
@@ -45,35 +45,35 @@ class Event {
     }
 
 
-    static isValid (event){
+    static isValid(event) {
         return db.isValid(event, Event)
     }
 }
 
-const self = {};
-
-
-self.post = function(id, event){
-
-    if (Event.isValide(event)){
-        db.utils.connexionDb(url)
-            .then((database => {
-                database.collection(collection).insert(event)
-            }))
-    }
-};
-
-self.put = function(id, eventParams){
-    db.utils.getForAll(collection, id, {})
-        .then(result => {
-            if (result){
+const self = {
+        get: (collection, query = {}, sort = {}) => {
+            return db.get(collection, query = {}, sort = {})
+        },
+        post: (id, event) => {
+            if (Event.isValide(event)) {
                 return db.utils.connexionDb(url)
+                    .then((database => {
+                        database.collection(collection).insert(event)
+                    }))
+            } else {
+                console.log("event is not valide");
+                throw "event is not valide";
             }
-        })
-        .then(database => {
-            database.collection(collection).update({id: id}, {eventParams})
-        })
-        .catch(err => {
-            throw err;
-    })
-};
+        },
+        delete: (collection, query) => {
+            return db.delete(collection, query)
+        },
+        patch: (collection, id, params) => {
+            return db.patch(collection, id, params)
+        },
+    };
+
+exports = self;
+
+
+

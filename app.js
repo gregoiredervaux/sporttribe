@@ -35,13 +35,11 @@ const login = require("./routes/login");
 const profil = require("./routes/profil");
 
 const api = {
-    group: require("/routes/api/group"),
-    message: require("/routes/api/message"),
-    event: require("/routes/api/event"),
-    profil: require("/routes/api/profil")
+    group: require("./routes/api/group"),
+    message: require("./routes/api/message"),
+    event: require("./routes/api/event"),
+    profil: require("./routes/api/profil")
 };
-
-app.use(init);
 
 // initialize the session
 app.use(session({

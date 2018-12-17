@@ -1,7 +1,9 @@
+
+let dbuser = 'dev';
+let dbpasswd = 'dev123dev123';
+
 const self = {
-    url: `mongodb://${self.dbuser}:${self.dbpasswd}@ds123844.mlab.com:23844/sporttirbe`,
-    dbuser:'gregoiredervaux',
-    dbpasswd:'piluleBleu0'
+    url: `mongodb://${dbuser}:${dbpasswd}@ds135974.mlab.com:35974/sporttribe`,
 };
 
 module.exports = self;

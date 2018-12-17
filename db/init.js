@@ -1,26 +1,33 @@
 var MongoClient = require('mongodb').MongoClient;
-var url = require('/config/db').url;
+var url = require('../config/db').url;
 
 function erreur_db(err, res) {
-    if (err) throw err;
-    console.log(res);
+    console.log(err);
 }
 
 
 function init() {
-    MongoClient.connect(url, function (err, db) {
+
+    console.log(url);
+
+    MongoClient.connect(url, {useNewUrlParser: true}, function (err, db) {
         if (err) throw err;
         console.log("Database created!");
 
-        db_sporttribe = db.db("db_sporttribe");
+        db_sporttribe = db.db("sporttribe");
 
-        db_sporttribe.createCollection("utilisteurs", function (err, res) {
-            erreur_db(err, res);
-        });
+        try {
+            db_sporttribe.createCollection("utilisateurs", function (err, res) {
+                erreur_db(err, res);
+            });
+        } catch (error){
+            console.error(error)
+        }
 
         let utilisateurs = [
             {
-                __id: 0,
+
+                id: 0,
                 first_name: "guillaume",
                 last_name: "Denac",
                 email: "gui@dev.fr",
@@ -42,7 +49,8 @@ function init() {
                 unconfirmed_email: ""
             },
             {
-                __id: 1,
+
+                id: 1,
                 first_name: "gregoire",
                 last_name: "Derv",
                 email: "gre@dev.fr",
@@ -65,16 +73,21 @@ function init() {
             }
         ];
 
-        db_sporttribe.collenction("utilisateur").insertMany(utilisateurs, function (err, res) {
+        db_sporttribe.collection("utilisateurs").insertMany(utilisateurs, function (err, res) {
             erreur_db(err, res);
         });
 
-        db_sporttribe.createCollection("activity", function (err, res) {
-            erreur_db(err, res);
-        });
+        try {
+            db_sporttribe.createCollection("activities", function (err, res) {
+                erreur_db(err, res);
+            });
+        } catch (error){
+            console.error(error)
+        }
 
-        let activity = {
-            __id: 1,
+        let activity = [{
+
+            id: 1,
             name: "tournois de bandminton",
             description: "tournois de bad",
             players: [
@@ -91,36 +104,46 @@ function init() {
             creator_id: 0,
             captain_id: 0,
             groupe_id: 0
-        };
+        }];
 
-        db_sporttribe.collenction("activity").insertMany(activity, function (err, res) {
+        db_sporttribe.collection("activities").insertMany(activity, function (err, res) {
             erreur_db(err, res);
         });
 
-        db_sporttribe.createCollection("group", function (err, res) {
-            erreur_db(err, res);
-        });
+        try {
+            db_sporttribe.createCollection("groups", function (err, res) {
+                erreur_db(err, res);
+            });
+        } catch (error){
+            console.error(error)
+        }
 
-        let groups = {
-            __id: 0,
+        let groups = [{
+
+            id: 0,
             name: "dev-team",
             description: "equipe de la dev",
             email_domain: "dev.fr",
             created_at: "2018-10-29 20:20:00",
             last_update: "2018-10-29 20:20:00",
             picture: "dev_team.png"
-        };
+        }];
 
-        db_sporttribe.collenction("activity").insertMany(groups, function (err, res) {
+        db_sporttribe.collection("groups").insertMany(groups, function (err, res) {
             erreur_db(err, res);
         });
 
-        db_sporttribe.createCollection("location", function (err, res) {
-            erreur_db(err, res);
-        });
+        try {
+            db_sporttribe.createCollection("locations", function (err, res) {
+                erreur_db(err, res);
+            });
+        } catch (error){
+            console.error(error)
+        }
 
-        let location = {
-            __id: 0,
+        let location = [{
+
+            id: 0,
             name: "gymanse edhec",
             adress: "edhec",
             city: "lille",
@@ -130,45 +153,76 @@ function init() {
             sport_available: [
                 0
             ]
-        };
+        }];
 
-        db_sporttribe.collenction("localtion").insertMany(location, function (err, res) {
+        db_sporttribe.collection("locations").insertMany(location, function (err, res) {
             erreur_db(err, res);
         });
 
-        db_sporttribe.createCollection("sport", function (err, res) {
-            erreur_db(err, res);
-        });
+        try {
+            db_sporttribe.createCollection("sports", function (err, res) {
+                erreur_db(err, res);
+            });
+        } catch (error){
+            console.error(error)
+        }
 
-        let sport = {
-            __id: 0,
+        let sport = [{
+
+            id: 0,
             name: "badminton",
             created_at: "2018-10-29 20:20:00",
             last_update: "2018-10-29 20:20:00",
             icon: "bad_icn.png"
-        };
+        }];
 
-        db_sporttribe.collenction("sport").insertMany(sport, function (err, res) {
+        db_sporttribe.collection("sports").insertMany(sport, function (err, res) {
             erreur_db(err, res);
         });
 
-        db_sporttribe.createCollection("admin_user", function (err, res) {
-            erreur_db(err, res);
-        });
+        try {
+            db_sporttribe.createCollection("admin_users", function (err, res) {
+                erreur_db(err, res);
+            });
+        } catch (error){
+            console.error(error)
+        }
 
         let admin_user = [
             {
-                __id: 0,
+
+                id: 0,
             },
             {
-                __id: 2,
+
+                id: 2,
             }
         ];
 
-        db_sporttribe.collenction("admin_user").insertMany(admin_user, function (err, res) {
+        db_sporttribe.collection("admin_users").insertMany(admin_user, function (err, res) {
             erreur_db(err, res);
         });
 
+        try {
+            db_sporttribe.createCollection("messages", function (err, res) {
+                erreur_db(err, res);
+            });
+        } catch (error){
+            console.error(error)
+        }
+
+        let message = [{
+
+            id: 0,
+            name: "badminton",
+            created_at: "2018-10-29 20:20:00",
+            last_update: "2018-10-29 20:20:00",
+            icon: "bad_icn.png"
+        }];
+
+        db_sporttribe.collection("messages").insertMany(message, function (err, res) {
+            erreur_db(err, res);
+        });
     });
 }
 
