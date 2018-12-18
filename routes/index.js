@@ -16,7 +16,7 @@ router.get("/about", (req, res) => {
 
 router.get("/", (req, res) => {
 
-    let sport = [
+    let sports = [
         {
             id: 1,
             name: "volley",
@@ -67,11 +67,12 @@ router.get("/", (req, res) => {
         }
     ];
 
-    res.json("index", parseJSON(
-        {
+    res.render("index", {
+            title: "Sporttirbe",
+            message: null,
             events: events,
             sports: sports,
-        })
+        }
     );
 });
 

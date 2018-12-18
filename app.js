@@ -38,7 +38,8 @@ const api = {
     group: require("./routes/api/group"),
     message: require("./routes/api/message"),
     event: require("./routes/api/event"),
-    profil: require("./routes/api/profil")
+    profil: require("./routes/api/profil"),
+    sport: require("./routes/api/sport")
 };
 
 // initialize the session
@@ -49,10 +50,11 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-app.use("/api/group", api.group);
-app.use("/api/message", api.message);
-app.use("/api/event", api.event);
-app.use("/api/profil", api.profil);
+app.use("/api/groups", api.group);
+app.use("/api/messages", api.message);
+app.use("/api/events", api.event);
+app.use("/api/profiles", api.profil);
+app.use("/api/sports", api.sport);
 
 app.use("/login", login);
 app.use("/group", group);
@@ -65,6 +67,7 @@ app.use("/", index);
 app.use((req, res, next)=> {
     const err = new Error("Not Found");
     err.status = 404;
+    console.log(req.url);
     next(err);
 });
 

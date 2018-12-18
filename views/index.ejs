@@ -16,8 +16,10 @@
     </ul>
 </nav>
 <main>
-    <h1><%= message.title %></h1>
-    <p class="<%= message.class %>"><%= message.p %></p>
+    <%if (message) {%>
+        <h1><%= message.title %></h1>
+        <p class="<%= message.class %>"><%= message.p %></p>
+    <% } %>
 </main>
 
 <footer>

@@ -2,32 +2,59 @@ var sporttribe = sporttribe || {};
 
 /*controle la vue principale*/
 
-(($, indexService, indexUtils) => {
-    const eventsSection = $("main")
+(($, srv, utils) => {
+    const eventsSection = $("main");
 
-    function loadingView(){
-
+    function loadingView() {
+        eventsSection.html("loading...");
     }
 
-    function updateView(events){
-        eventsSection.html("");
-        events.forEach(event => eventsSection.append(createEvent(event)))
+    function cstrEvent(event) {
+        return new Promise(resolve => {
+            srv.getPlayers(event.players)
+                .then(players => {
+                    event.players = players;
+                    return srv.getSports(event.sport_id);
+                })
+                .then(sport => {
+                    event.sport = sport;
+                    console.log(JSON.stringify(event));
+                    resolve();
+                })
+        })
     }
 
-    function createEvent(event){
-        return $(`<div class = "activitee" >` +
-            `<a href="./event/${event.id}"></a>` +
+    function updateView(event) {
+        if (eventsSection.html === "loading...") {
+            eventSection.html("");
+            eventsSection.append(createEvent(event));
+        } else {
+            eventsSection.append(createEvent(event));
+        }
+    }
+
+    function createEvent(event) {
+        return $(
+            `<div class = "activitee" >` +
+            `<a href="./event/${event.id}">` +
             `<img src="../img/sport/${event.sport.picture}" alt="${event.sport.name}">` +
             `<h2>${event.name}</h2>` +
             `<p class="date">${event.date}</p>` +
             `<p class ="descrition">${event.description}</p>` +
             `<p>${event.location.name}</p>` +
             '<input type="button" value ="s\' inscrire">' +
+            `</a>` +
             `</div>`)
     }
 
-indexService.getEvents().done(events => {
-    updateView(events)
-})
+    loadingView();
+    srv.getEvents()
+        .then(events => {
+            events.forEach(event => {
+                cstrEvent(event)
+                    .then(updateView(event))
+            })
+        })
+
 
 })(jQuery, sporttribe.indexService, sporttribe.utils);

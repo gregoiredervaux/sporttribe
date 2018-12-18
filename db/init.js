@@ -171,9 +171,8 @@ function init() {
 
             id: 0,
             name: "badminton",
-            created_at: "2018-10-29 20:20:00",
-            last_update: "2018-10-29 20:20:00",
-            icon: "bad_icn.png"
+            icon: "bad_icon.png",
+            requirement: ["chaussures de salle", "raquette", "terrain", "filet de badminton"]
         }];
 
         db_sporttribe.collection("sports").insertMany(sport, function (err, res) {

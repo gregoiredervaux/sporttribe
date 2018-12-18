@@ -31,7 +31,7 @@ class Group {
 
 
 const self = {
-    get: (collection, query = {}, sort = {}) => {
+    get: (query = {}, sort = {}) => {
         return db.get(collection, query = {}, sort = {})
     },
     post: (id, group) => {
@@ -45,13 +45,13 @@ const self = {
             throw "group is not valide";
         }
     },
-    delete: (collection, query) => {
+    delete: (query) => {
         return db.delete(collection, query)
     },
-    patch: (collection, id, params) => {
+    patch: (id, params) => {
         return db.patch(collection, id, params)
     },
 };
 
-exports = self;
+module.exports = self;
 

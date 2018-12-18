@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const utils = require('../../lib/routes_utils');
-const userDB = require('../../db/profil');
+const sportDB = require('../../db/sport');
 
 router.get('/:id', (req, res) => {
 
-    userDB.get({id: parseInt(req.params.id)})
+    sportDB.get({id: parseInt(req.params.id)})
         .then(result => {
             res.status(result.status).json(result.result[0])
         })
@@ -13,7 +13,7 @@ router.get('/:id', (req, res) => {
 
 router.get("/", (req, res) => {
 
-    userDB.get()
+    sportDB.get()
         .then(result => {
             res.status(result.status).json(result.result)
         })
