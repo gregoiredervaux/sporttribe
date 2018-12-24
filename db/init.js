@@ -46,7 +46,8 @@ function init() {
                 confirmation_token: "",
                 confirmed_at: "2018-10-29 20:20:00",
                 confirmation_sent_at: "2018-10-29 20:20:00",
-                unconfirmed_email: ""
+                unconfirmed_email: "",
+                participate: [0]
             },
             {
 
@@ -69,7 +70,8 @@ function init() {
                 confirmation_token: "",
                 confirmed_at: "2018-10-29 20:20:00",
                 confirmation_sent_at: "2018-10-29 20:20:00",
-                unconfirmed_email: ""
+                unconfirmed_email: "",
+                participate: [0]
             }
         ];
 
@@ -87,7 +89,7 @@ function init() {
 
         let activity = [{
 
-            id: 1,
+            id: 0,
             name: "tournois de bandminton",
             description: "tournois de bad",
             players: [
@@ -99,7 +101,7 @@ function init() {
             price: 0,
             created_at: "2018-10-29 20:00:00",
             last_update: "2018-10-29 20:00:00",
-            location_id: "1",
+            location_id: 0,
             sport_id: 0,
             creator_id: 0,
             captain_id: 0,
@@ -194,7 +196,7 @@ function init() {
             },
             {
 
-                id: 2,
+                id: 1,
             }
         ];
 
@@ -213,13 +215,36 @@ function init() {
         let message = [{
 
             id: 0,
-            name: "badminton",
-            created_at: "2018-10-29 20:20:00",
-            last_update: "2018-10-29 20:20:00",
-            icon: "bad_icn.png"
+            from: 0,
+            to: 1,
+            sent_at: "2018-10-29 20:20:00",
+            seen_at: "2018-10-29 20:20:00",
+            content: "sacré pitch dit donc !"
         }];
 
         db_sporttribe.collection("messages").insertMany(message, function (err, res) {
+            erreur_db(err, res);
+        });
+
+        try {
+            db_sporttribe.createCollection("comments", function (err, res) {
+                erreur_db(err, res);
+            });
+        } catch (error){
+            console.error(error)
+        }
+
+        let comment = [{
+
+            id: 0,
+            from: 0,
+            to: 1,
+            sent_at: "2018-10-29 20:20:00",
+            seen_at: "2018-10-29 20:20:00",
+            content: "sacré pitch dit donc !"
+        }];
+
+        db_sporttribe.collection("comments").insertMany(message, function (err, res) {
             erreur_db(err, res);
         });
     });

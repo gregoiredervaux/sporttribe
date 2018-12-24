@@ -39,7 +39,8 @@ const api = {
     message: require("./routes/api/message"),
     event: require("./routes/api/event"),
     profil: require("./routes/api/profil"),
-    sport: require("./routes/api/sport")
+    sport: require("./routes/api/sport"),
+    location: require("./routes/api/location")
 };
 
 // initialize the session
@@ -55,6 +56,7 @@ app.use("/api/messages", api.message);
 app.use("/api/events", api.event);
 app.use("/api/profiles", api.profil);
 app.use("/api/sports", api.sport);
+app.use("/api/locations", api.location);
 
 app.use("/login", login);
 app.use("/group", group);
@@ -65,9 +67,9 @@ app.use("/", index);
 
 // catch 404 and forward to error handler
 app.use((req, res, next)=> {
+    console.log("url: " + req.url);
     const err = new Error("Not Found");
     err.status = 404;
-    console.log(req.url);
     next(err);
 });
 

@@ -45,6 +45,8 @@ class Event {
 
 const self = {};
 
+
+
     self.collection = "activities";
 
     self.get = (query = {}, sort = {}) => {
