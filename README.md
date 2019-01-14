@@ -156,7 +156,6 @@ Les ressources accessibles sont:
       "to_event": 0,
       "after": "root",
       "sent_at": "2018-10-29 20:20:00",
-      "seen_at": "2018-10-29 20:20:20",
       "content": "sacré pitch dit donc !"
   }
   ```

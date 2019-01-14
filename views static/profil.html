@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%=title%></title>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+<link rel="stylesheet" href="/public/css/default.css">
+<meta http-equiv="Content-Language" content="fr">
+<meta name="Description" content="Nous apportons le sport dans votre entreprise !">
+<meta name="author" lang="fr" content="Guillaume De Nacquar et Gregoire Dervaux">
+
+</head>
+<body>
+<header>
+  <div class="container">
+  <div class="main-tab">
+      <a class="logo" href="/">
+          <img src="/public/img/logo_header.png">
+      </a>
+      <nav>
+          <a href="/event">Evenements</a>
+          <a href="/group">Groupe</a>
+      </nav>
+      <div class="show-option">
+          <div class="search clickable-option">
+              <i class="fas fa-search"></i>
+          </div>
+          <div class="user clickable-option">
+              <i class="fas fa-user"></i>
+          </div>
+          <div class="log clickable-option">
+              <i class="fas fa-sign-in-alt"></i>
+              <i class="fas fa-sign-out-alt hidden"></i>
+          </div>
+          <div class="nav-btn clickable-option">
+              <i class="fas fa-bars"></i>
+          </div>
+      </div>
+  </div>
+  <div class="option">
+      <form class="search hidden">
+          <input type="text" placeholder="Search.." name="search">
+          <i class="fas fa-search"></i>
+      </form>
+      <nav class="hidden">
+          <a href="/event">Evenements</a>
+          <a href="/group">Groupe</a>
+      </nav>
+  </div>
+</div>
+</header>
+<main>
+    <form onsubmit="subimitUser">
+        <label for="first_name">Prénom</label>
+        <input type="text" id="first_name" name="first_name">
+        <label for="last_name">Nom</label>
+        <input type="text" id="last_name" name="last_name">
+        <label for="email">
+            Email <br>
+            Attetion, cela declanchera l'envoie
+            d'un email de vérification!
+        </label>
+        <input type="email" id="email" name="email">
+        <label for="picture">Photo de profil</label>
+    </form>
+</main>
+
+<footer>
+  <div class="row">
+  <h3>Contactez nous</h3>
+  <ul class=contact">
+      <li>
+          <a href="mailto:mail@mail.com">
+              <span>mail@mail.com</span>
+          </a>
+      </li>
+      <li>
+          <a href="tel:0634337544">
+              <span>0634337544</span>
+          </a>
+      </li>
+  </ul>
+</div>
+<div class="row">
+  <h3>Suivez nous</h3>
+  <ul class="social_network">
+      <li>
+          <a href="" title="Facebook" class="roundIcon blue">
+              <i class="fab fa-facebook-f"></i>
+          </a>
+      </li>
+      <li>
+          <a href="" title="Twitter" class="roundIcon lightblue">
+              <i class="fab fa-twitter"></i>
+          </a>
+      </li>
+      <li>
+          <a href="" title="linkedIn" class="roundIcon blue">
+              <i class="fab fa-linkedin-in"></i>
+          </a>
+      </li>
+  </ul>
+</div>
+<script type="text/javascript" src="/public/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/public/js/header_controller.js"></script>
+</footer>
+</body>
+</html>

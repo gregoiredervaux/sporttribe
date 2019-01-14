@@ -101,11 +101,9 @@ h3 {
 ***********************************/
 
 
-
-
 body {
     display: grid;
-    grid-template:auto auto auto auto auto / 5vw 2fr 3fr 3fr 5vw;
+    grid-template: auto auto auto auto auto / 5vw 2fr 3fr 3fr 5vw;
     grid-gap: 10px;
     margin:0;
 }

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%=title%></title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="/public/css/default.css">
+  <meta http-equiv="Content-Language" content="fr">
+  <meta name="Description" content="Nous apportons le sport dans votre entreprise !">
+  <meta name="author" lang="fr" content="Guillaume De Nacquar et Gregoire Dervaux">
+</head>
+<body>
+<header>
+    <img src="/public/img/logo_big" alt="logo">
+    <h1>Sporttribe</h1>
+</header>
+<main>
+    <p>Bienvenue<br>
+    Veuillez vous connectez pour acceder au reste du site
+    </p>
+    <form action="/api/login/" method="post">
+        <input type="email" required value="email@mail.fr">
+        <input type="password" required>
+        <input type="submit" value="submit">
+    </form>
+
+    <p onclick="restorePassword">Mot de passe oublié ?</p>
+</main>
+
+<footer>
+  <div class="row">
+    <h3>Contactez nous</h3>
+    <ul class=contact">
+        <li>
+            <a href="mailto:mail@mail.com">
+                <span>mail@mail.com</span>
+            </a>
+        </li>
+        <li>
+            <a href="tel:0634337544">
+                <span>0634337544</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="row">
+    <h3>Suivez nous</h3>
+    <ul class="social_network">
+        <li>
+            <a href="" title="Facebook" class="roundIcon blue">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li>
+            <a href="" title="Twitter" class="roundIcon lightblue">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </li>
+        <li>
+            <a href="" title="linkedIn" class="roundIcon blue">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+<script type="text/javascript" src="/public/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/public/js/header_controller.js"></script>
+</footer>
+</body>
+</html>

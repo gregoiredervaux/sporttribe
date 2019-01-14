@@ -8,14 +8,14 @@
     <% include ./partial/header.ejs %>
 </header>
 <main>
-    <form id="main" action="/api/events" method="POST">
+    <form id="main" action="/api/events" method="post">
         <label for="name">Noms de l'évenement</label>
         <input type="text" id="name" name="name" required>
         <label for="descr">descritpion</label>
         <input type="text" id="descr" name="descr">
         <label for="date">Date de l'évenement</label>
         <input type="date" id="date" name="date">
-        L'evenement est-il ouvert ? <br >
+        L'evenement est-il ouvert ? <br>
         <input type="radio" id="open" name="opened" value="1">
         <label for="open">Ouvert</label>
         <input type="radio" id="close" name="opened" value="0">
