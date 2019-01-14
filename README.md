@@ -41,7 +41,7 @@ Les ressources accessibles sont:
  {
       "id": 0,
       "name": "tournois de bandminton",
-      "description": "tournois de bad",
+      "descr": "tournois de bad",
       "players": [
           0,
           1
@@ -74,11 +74,11 @@ Les ressources accessibles sont:
 
 + ```POST /events``` ajoute un evenement:
 
-+ object:
+  + object:
 ```JSON
 {
     "name": "tournois de bandminton",
-    "description": "tournois de bad",
+    "descr": "tournois de bad",
     "players": [
         0,
         1
@@ -88,7 +88,7 @@ Les ressources accessibles sont:
     "price": 0,
     "location_id": 0,
     "sport_id": 0,
-    "creator_id": 0,
+    "creator_id": 0
 }
 ```
 
@@ -109,8 +109,15 @@ Les ressources accessibles sont:
 
 > met aussi à jour le champs de l'utilisteur
 
-+ ```PATCH /events/:id/?param1=value1&param... ```
++ ```PATCH /events/:id ```
 
+  + object:
+```JSON
+{
+    "param1": "value1",
+    "param2": "value2",
+}
+```
   + status: **200** --> body: ```GET http/localhost/api/events/:id```
   + status: **400** --> body: 'bad request': la syntaxe des parametres n'est pas bonne
   + status: **403** --> body: 'Forbidden': vous n'etes pas capitaine de l'events
@@ -137,6 +144,8 @@ Les ressources accessibles sont:
   + status: **500** --> error
 
 > pas de retour en arriere possible
+
+###commentaire
 
 + object commentaire:
 
@@ -184,6 +193,20 @@ Les ressources accessibles sont:
   + status: **404** --> body: 'not found': l'id ne correspond a aucun event
   + status: **500** --> error
 
++ ```PATCH /events/:id/comments/:id.```
+
+  + object:
+```JSON
+{
+  "param1": "value1",
+  "param2": "value2",
+}
+```
+  + status: **200** --> body: ```GET http/localhost/api/events/:id/comments/:id```
+  + status: **400** --> body: 'bad request': la syntaxe des parametres n'est pas bonne
+  + status: **403** --> body: 'Forbidden': vous n'êtes pas l'autheur du post
+  + status: **500** --> error
+
 ### Utilisateurs
 
 + Object **user**:
@@ -213,7 +236,7 @@ Les ressources accessibles sont:
 
 
 + ```POST /users``` ajout d'un nouvel utilisateur
- + body: 
+ + body:
 ```JSON
 {
     "first_name": "guillaume",
@@ -223,7 +246,7 @@ Les ressources accessibles sont:
     "groups_id": [
         0
     ],
-    "picture": "pict_prof_gui.png",
+    "picture": "pict_prof_gui.png"
 }
 ```
 
@@ -231,7 +254,15 @@ Les ressources accessibles sont:
   + status: **400** --> body: 'bad request': la syntaxe des champs n'est pas bonne
   + status: **500** --> error
 
-+ ```PATCH /users/:id?param1=value1&param2=value2 ```
++ ```PATCH /users/:id ```
+
+  + object:
+```JSON
+{
+  "param1": "value1",
+  "param2": "value2",
+}
+```
 
   + status: **200** --> body: ```GET http/localhost/api/users/:id```
   + status: **400** --> body: 'bad request': la syntaxe des parametres n'est pas bonne
@@ -288,7 +319,15 @@ Les ressources accessibles sont:
   + status: **404** --> body: 'not found': l'id ne correspond pas à une location
   + status: **500** --> error
 
-+ ``` PATCH /locations/:id?param1=value1&param2=value2&...```
++ ``` PATCH /locations/:id```
+
+  + object:
+```JSON
+{
+  "param1": "value1",
+  "param2": "value2",
+}
+```
   + status: **200** --> body: ```GET http://localhost/api/location/:id```
   + status: **400** --> body: 'bad request': la syntaxe des  parametres n'est pas bonne
   + status: **404** --> body: 'not found': l'id ne correspond pas à une location

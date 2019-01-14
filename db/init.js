@@ -47,6 +47,8 @@ function init() {
                 confirmed_at: "2018-10-29 20:20:00",
                 confirmation_sent_at: "2018-10-29 20:20:00",
                 unconfirmed_email: "",
+                cookie_token: "",
+                session_token: "",
                 participate: [0]
             },
             {
@@ -71,6 +73,8 @@ function init() {
                 confirmed_at: "2018-10-29 20:20:00",
                 confirmation_sent_at: "2018-10-29 20:20:00",
                 unconfirmed_email: "",
+                cookie_token: "",
+                session_token: "",
                 participate: [0]
             }
         ];

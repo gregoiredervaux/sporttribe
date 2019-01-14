@@ -53,6 +53,12 @@ self.get = (collection, query = {}, sort = {}) => {
                 }
             }
         })
+       .catch((err, result) => {
+           return {
+               status: 500,
+               result: "internal error"
+           };
+       })
 };
 
 self.delete = (collection, query) => {
@@ -78,17 +84,30 @@ self.patch = (collection, id, params) => {
                 return MongoClient.connect(url)
                     .then(database => {
                         let dbo = database.db("sporttribe");
-                        dbo.collection(collection).update({id: id}, {params})
+                        return dbo.collection(collection).update({id: id}, {$set: params})
+                    })
+                    .then(result, err => {
+                        let status = 200;
+                        (err)? status = 500: null;
+                        return {
+                            status: status
+                        }
                     })
                     .catch(err => {
                         console.log('probleme lors de la modification de la donnée');
-                        throw err;
+                        return {
+                            status: 500,
+                            result: JSON.stringify(err)
+                        };
                     });
             }
         })
         .catch(err => {
             console.log("probème lors de la vérification de l'existant de l'event");
-            throw err;
+            return {
+                status: 500,
+                result: JSON.stringify(err)
+            }
         })
 };
 
@@ -110,10 +129,5 @@ self.isValid = (object1, object2) => {
     }
     return isValid;
 };
-
-self.isDate = (str) => {
-    return str.match("[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}")
-};
-
 
 module.exports = self;

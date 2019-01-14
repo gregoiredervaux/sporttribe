@@ -11,12 +11,24 @@ router.get('/:id', (req, res) => {
         })
 });
 
-router.get("/", (req, res) => {
+router.post('/', (req, res) => {
 
-    locationDB.get()
-        .then(result => {
-            res.status(result.status).json(result.result)
-        })
+});
+
+router.put('/:id/sports/:id_sports', (req, res) => {
+
+});
+
+router.patch('/:id/', (req, res) => {
+
+});
+
+router.delete('/:id/sports/:id_sports', (req, res) => {
+
+});
+
+router.delete('/:id', (req, res) => {
+
 });
 
 module.exports = router;

@@ -7,7 +7,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const init = require ('./db/init').init;
-
+const auth = require ('./lib/auth');
+const validate  = require ('./lib/validate');
 // build the app
 const app = express();
 
@@ -36,13 +37,30 @@ const profil = require("./routes/profil");
 
 const api = {
     group: require("./routes/api/group"),
-    message: require("./routes/api/message"),
+    message: require("./routes/api/messag"),
     event: require("./routes/api/event"),
     profil: require("./routes/api/profil"),
     sport: require("./routes/api/sport"),
-    location: require("./routes/api/location")
+    location: require("./routes/api/location"),
 };
 
+//authentification
+/*
+app.use(cookieParser());
+app.use((req, res, next) => {
+
+    if (req.cookie('sessionToken')){
+        (auth.checkToken(req))? next() : auth.resetConnexion(res);
+    } else if(req.body.email && req.body.encrypted_password){
+        (auth.checkPassword(
+            req.body.email,
+            req.body.encrypted_password))? next(): auth.resetConnexion(res);
+    } else {
+        auth.resetConnexion(res);
+    }
+    next();
+});
+*/
 // initialize the session
 app.use(session({
     secret: 'sporttribe5805',
@@ -50,6 +68,13 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false }
 }));
+
+//on valide les données d'entrée
+
+app.use((req, next) => {
+   validate.allInput(req);
+   next();
+});
 
 app.use("/api/groups", api.group);
 app.use("/api/messages", api.message);

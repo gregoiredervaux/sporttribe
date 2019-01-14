@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ./partial/head.ejs %>
+</head>
+<body>
+<header>
+    <% include ./partial/header.ejs %>
+</header>
+<main>
+    <form onsubmit="subimitUser">
+        <label for="first_name">Prénom</label>
+        <input type="text" id="first_name" name="first_name">
+        <label for="last_name">Nom</label>
+        <input type="text" id="last_name" name="last_name">
+        <label for="email">
+            Email <br>
+            Attetion, cela declanchera l'envoie
+            d'un email de vérification!
+        </label>
+        <input type="email" id="email" name="email">
+        <label for="picture">Photo de profil</label>
+    </form>
+</main>
+
+<footer>
+    <% include ./partial/footer.ejs %>
+</footer>
+</body>
+<% include ./partial/script_index.ejs %>
+</html>

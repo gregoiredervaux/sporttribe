@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ./partial/head.ejs %>
+</head>
+<body>
+<header>
+    <% include ./partial/header.ejs %>
+</header>
+<main>
+    <form id="main" action="/api/events" method="POST">
+        <label for="name">Noms de l'évenement</label>
+        <input type="text" id="name" name="name" required>
+        <label for="descr">descritpion</label>
+        <input type="text" id="descr" name="descr">
+        <label for="date">Date de l'évenement</label>
+        <input type="date" id="date" name="date">
+        L'evenement est-il ouvert ? <br >
+        <input type="radio" id="open" name="opened" value="1">
+        <label for="open">Ouvert</label>
+        <input type="radio" id="close" name="opened" value="0">
+        <label for="close">Fermé</label>
+        <label for="location"></label>
+        <select name="location" id="location">
+            <option value="0">
+                <div class="location">
+                    <header>
+                        <p class="">Gymnase de la rue st jean</p>
+                    </header>
+                    <section class="place">
+                        <P class="city">Douai</P>
+                        <p class="postcode">59550</p>
+                        <p class="adress">45 rue St jean</p>
+                        <iframe src="https://www.google.com/maps/embed
+                            ?pb=!1m18!1m12!1m3!1d2544.948400968597!2d3.
+                            0823581830540268!3d50.367516614100474!2m3!1
+                            f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!
+                            1s0x0%3A0x88150a3d56848d4a
+                            !2sOptimum+Gym+DOUAI!5e0!3m2!1sfr!2sfr!4v1546721113296"
+                            width="600" height="450"
+                            frameborder="0" style="border:0" allowfullscreen
+                            class="maps">
+                        </iframe>
+                    </section>
+                </div>
+            </option>
+            <option value="0">
+                <div class="location">
+                    <header>
+                        <p class="">Gymnase de l'entreprise</p>
+                    </header>
+                    <section class="place">
+                        <P class="city">Douai</P>
+                        <p class="postcode">59550</p>
+                        <p class="adress">salle de sport de l'entreprise</p>
+                        <iframe src="https://www.google.com/maps/embed
+                            ?pb=!1m18!1m12!1m3!1d2544.948400968597!2d3.
+                            0823581830540268!3d50.367516614100474!2m3!1
+                            f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!
+                            1s0x0%3A0x88150a3d56848d4a
+                            !2sOptimum+Gym+DOUAI!5e0!3m2!1sfr!2sfr!4v1546721113296"
+                                width="600" height="450"
+                                frameborder="0" style="border:0" allowfullscreen
+                                class="maps">
+                        </iframe>
+                    </section>
+                </div>
+            </option>
+        </select>
+        <label for="sport">Choissez votre ou vos sports</label>
+        <select name="sport" id="sport">
+            <option value="0">
+                <div>
+                    <p>Badmington</p>
+                    <img src="/public/img/sports/bad_icon.png" alt="badminton">
+                </div>
+            </option>
+            <option value="1">
+                <div>
+                    <p>volley</p>
+                    <img src="/public/img/sports/volley_icon.png" alt="volley">
+                </div>
+            </option>
+        </select>
+        <input type="submit">
+    </form>
+    <form id="sports" onsubmit="cleanSportData" hidden>
+        <label for="name"></label>
+        <input type="text" name="name" id="name">
+        Matériel necessaire:<br>
+        <label for="req0"></label>
+        <input type="text" name="req0" id="req0">
+        <label for="req1"></label>
+        <input type="text" name="req1" id="req1">
+        <button type="button" onclick="moreRequirement">
+            +
+        </button>
+        <button type="button" onclick="lessRequirement">
+            -
+        </button>
+        <input type="submit" value="Valider">
+        <input type="reset" value="Vider">
+    </form>
+    <form id="locations" onsubmit="cleanLocationData" hidden>
+        <label for="name">Noms du lieu</label>
+        <input type="text" name="name" id="name">
+        <label for="adress">Adresse</label>
+        <input type="text" name="adress" id="adress">
+        <label for="city">Ville</label>
+        <input type="text" name="city" id="city">
+        <label for="postcode">postcode</label>
+        <input type="text" name="postcode" id="postcode">
+        <label for="sport">Choissez les sports disponibles</label>
+        <select name="sport" id="sport">
+            <option value="0">
+                <div>
+                    <p>Badmington</p>
+                    <img src="/public/img/sports/bad_icon.png" alt="badminton">
+                </div>
+            </option>
+            <option value="1">
+                <div>
+                    <p>volley</p>
+                    <img src="/public/img/sports/volley_icon.png" alt="volley">
+                </div>
+            </option>
+        </select>
+        <button type="button" onclick="addSport">
+            Ajouter un sport insolite
+        </button>
+    </form>
+</main>
+<footer>
+    <% include ./partial/footer.ejs %>
+</footer>
+</body>
+<% include ./partial/script_index.ejs %>
+</html>

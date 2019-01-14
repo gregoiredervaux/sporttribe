@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const utils = require('../../lib/routes_utils');
 
-router.get("/", (req, res) => {
+router.get("/to/:id_to/from/:id_from", (req, res) => {
     res.render("index", {
         title: "Profile",
         message: {
@@ -11,6 +11,11 @@ router.get("/", (req, res) => {
             p: "ca fonctionne"
         }
     });
+});
+
+router.post('/', (req, res) => {
+
+
 });
 
 module.exports = router;

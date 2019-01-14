@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ./partial/head.ejs %>
+    <link rel="stylesheet" href="/public/css/login.css">
+</head>
+<body>
+<header>
+    <img src="/public/img/logo_big" alt="logo">
+    <h1>Sporttribe</h1>
+</header>
+<main>
+    <p>Bienvenue<br>
+    Veuillez vous connectez pour acceder au reste du site
+    </p>
+    <form action="/api/login/" method="post">
+        <input type="email" required value="email@mail.fr">
+        <input type="password" required>
+        <input type="submit" value="submit">
+    </form>
+
+    <p onclick="restorePassword">Mot de passe oublié ?</p>
+</main>
+
+<footer>
+    <% include ./partial/footer.ejs %>
+</footer>
+</body>
+<% include ./partial/script_index.ejs %>
+</html>

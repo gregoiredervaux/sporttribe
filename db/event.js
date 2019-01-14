@@ -1,5 +1,6 @@
-var url = require('../config/db');
-var db = require('./utils');
+const url = require('../config/db');
+const db = require('./utils');
+const validate = require ('../lib/validate');
 
 class Event {
 
@@ -45,8 +46,6 @@ class Event {
 
 const self = {};
 
-
-
     self.collection = "activities";
 
     self.get = (query = {}, sort = {}) => {
@@ -56,13 +55,26 @@ const self = {};
     self.post = (id, event) => {
         if (Event.isValide(event)) {
             return MongoClient.connect(url)
-                .then((database) => {
+                .then(database => {
                     let dbo = database.db("sporttribe");
                     dbo.collection(self.collection).insert(event)
                 })
+                .then(result => {
+                    return {
+                        status: 200
+                    }
+                })
+                .catch(err => {
+                    return {
+                        status: 500,
+                        result: JSON.stringify(err)
+                    }
+                })
         } else {
             console.log("event is not valide");
-            throw "event is not valide";
+            return {
+                status: 400
+            }
         }
     };
     self.delete = (query) => {
