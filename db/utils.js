@@ -9,9 +9,10 @@ const self = {};
  * @param collection        The collection aimed
  * @param query             The query, must be formated for a mongodb function find()
  * @param sort              The sorted parameter, must be formated for a mongodb cursor
+ * @param max               nombre maximal d'elements a recupérer
  * @returns callback(result) or none
  */
-self.get = (collection, query = {}, sort = {}) => {
+self.get = (collection, query = {}, sort = {}, max = 20) => {
 
     console.log("debugger get: ");
     console.log("collection: " + JSON.stringify(collection));
@@ -23,6 +24,7 @@ self.get = (collection, query = {}, sort = {}) => {
             return dbo.collection(collection)
                 .find(query)
                 .sort(sort)
+                .limit(max)
                 .toArray()
         })
         .then((result) => {
@@ -40,9 +42,26 @@ self.get = (collection, query = {}, sort = {}) => {
                         };
                     case 0:
                         console.log(' retour []');
+                        if (query === {}){
+                            return {
+                                status: 200,
+                                result: result
+                            };
+                        } else {
+                            return {
+                                status: 404,
+                                result: "not found",
+                                err: {
+                                    status: 404,
+                                    message: "not found"
+                                }
+                            }
+                        }
+                    case 1:
+                        console.log(' retour 1 element');
                         return {
                             status: 200,
-                            result: result
+                            result: result[0]
                         };
                     default:
                         console.log(' retour les ' + result.length + '-er resultats');
@@ -53,10 +72,14 @@ self.get = (collection, query = {}, sort = {}) => {
                 }
             }
         })
-       .catch((err, result) => {
+       .catch((err) => {
            return {
                status: 500,
-               result: "internal error"
+               result: "internal error",
+               err: {
+                   status: 500,
+                   message: JSON.stringify(err)
+               }
            };
        })
 };
@@ -76,8 +99,8 @@ self.delete = (collection, query) => {
 
 self.patch = (collection, id, params) => {
     self.get(collection, id, {})
-        .then(result => {
-            if (!result.status || result.status !== 200) {
+        .then(responce => {
+            if (!responce.status || responce.status !== 200) {
                 console.log("id présenté n'est pas bon, put impossible");
                 return {status: 400, result: null}
             } else {
@@ -86,18 +109,21 @@ self.patch = (collection, id, params) => {
                         let dbo = database.db("sporttribe");
                         return dbo.collection(collection).update({id: id}, {$set: params})
                     })
-                    .then(result, err => {
-                        let status = 200;
-                        (err)? status = 500: null;
+                    .then( () => {
                         return {
-                            status: status
+                            status: 200,
+                            result: null
                         }
                     })
                     .catch(err => {
                         console.log('probleme lors de la modification de la donnée');
                         return {
                             status: 500,
-                            result: JSON.stringify(err)
+                            result: "internal error",
+                            err: {
+                                status: 500,
+                                message: JSON.stringify(err)
+                            }
                         };
                     });
             }
@@ -106,28 +132,64 @@ self.patch = (collection, id, params) => {
             console.log("probème lors de la vérification de l'existant de l'event");
             return {
                 status: 500,
-                result: JSON.stringify(err)
+                result: "internal error",
+                err: {
+                    status: 500,
+                    message: JSON.stringify(err)
+                }
             }
         })
 };
 
-/**
- * envoie au client l'erreur
- * @param status
- * @param err
- */
-self.errorhandler = (status, err) => {
-    return {status, err}
-};
+self.post = (collection, object) => {
 
-self.isValid = (object1, object2) => {
-    let isValid = true;
-    for (let property in object1) {
-        if (!object2[property]) {
-            isValid = false;
-        }
+    if (object.id){
+        self.get(collection, {id: parseInt(id)})
+            .then( responce => {
+                if (responce.result.id){
+                    return {
+                        status: 409,
+                        result: 'conflict, l\'id existe déjà'
+                    }
+                }
+            })
+    } else {
+        self.get(collectin, {}, {id: -1}, 1)
+            .then(responce => {
+                event.id = parseInt(responce.result.id);
+                return MongoClient.connect(url)
+                    .then(database => {
+                        let dbo = database.db("sporttribe");
+                        dbo.collection(self.collection).insert(event)
+                    })
+                    .then( () => {
+                        return {
+                            status: 200
+                        }
+                    })
+                    .catch(err => {
+                        return {
+                            status: 500,
+                            result: 'erreur',
+                            err: {
+                                status: 400,
+                                message: JSON.stringify(err)
+                            }
+                        }
+                    })
+            })
+            .catch(err => {
+                console.log("probème lors de la vérification de l'existant du post");
+                return {
+                    status: 500,
+                    result: "internal error",
+                    err: {
+                        status: 500,
+                        message: JSON.stringify(err)
+                    }
+                }
+            })
     }
-    return isValid;
 };
 
 module.exports = self;

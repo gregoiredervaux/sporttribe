@@ -1,5 +1,33 @@
 # Sporttribe
 
+-----------
+
+## Structure du code
+
+### server
+
++ /routes
+  différentes pages accessibles de l'application
+
++ /routes/api
+  sécurisation des entrées
+  analyse des entrées
+  lancement des actions a effectuer
++ /db
+  classes des objects
+  methode de vérifiaction des entrées
++ /bd/utils
+  methodes générique de la basse de donnée
+
++ /lib
+  toutes les classes annexes
+  gestion des authentifications
+  sécurisation des données
+
+### client
+
+// a developper
+
 ------------
 
 ## API

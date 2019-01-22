@@ -1,59 +1,104 @@
-var url = require('../config/db');
 var db = require('./utils');
+const validate = require ('../lib/validate');
 
-class Location {
+function Location (location) {
 
-    constructor(location) {
-
-        if (Location.isValid(location)) {
-            this.id = location.id;
-            this.name = location.name;
-            this.adress = location.adress;
-            this.city = location.city;
-            this.postcode = location.postcode;
-            this.created_at = location.created_at;
-            this.last_update = location.last_update;
-            this.sport_available = location.sport_available;
-        } else {
-            console.log("location pas bon")
-        }
-    }
-
-    static isValid(location) {
-        return location.id >= 0 &&
-            toString(location.name) &&
-            toString(location.adress) &&
-            toString(location.city) &&
-            location.postcode.length >= 0 && location.postcode.length < 100000 &&
-            db.utils.isDate(location.created_at) &&
-            db.utils.isDate(location.last_update)
-    }
+    this.id = location.id;
+    this.name = location.name;
+    this.adress = location.adress;
+    this.city = location.city;
+    this.postcode = location.postcode;
+    this.created_at = location.created_at;
+    this.last_update = location.last_update;
+    this.sport_available = location.sport_available;
 }
+
+Location.prototype = {
+
+    constructor: Location,
+
+    testFields: function () {
+        return [
+            validate.isInt(this.id),
+            validate.isString(this.name),
+            validate.isString(this.adress),
+            validate.isString(this.city),
+            validate.isPostCode(this.postcode),
+            validate.isDate(this.created_at),
+            validate.isDate(this.last_update),
+            validate.isArray(this.sport_available)
+        ]
+    },
+
+    isValid: function () {
+        const arrayTest = this.testFields();
+        for (let test in arrayTest){
+            if (!test){
+                return false
+            }
+        }
+        return true
+    },
+
+    fullFieldsValids: function () {
+
+        const arrayTest = this.testFields();
+        for (let test in arrayTest){
+            if (test === false){
+                return false
+            }
+        }
+        return true
+    }
+
+};
 
 const self = {};
 
 self.collection = "locations";
 
 self.get = (query = {}, sort = {}) => {
-    console.log("test2: " + self.collection);
     return db.get(self.collection, query, sort)
 };
-self.post = (id, location) => {
-    if (Location.isValide(location)) {
-        return MongoClient.connect(url)
-            .then((database) => {
-                let dbo = database.db("sporttribe");
-                dbo.collection(self.collection).insert(location)
-            })
-    } else {
-        console.log("location is not valide");
-        throw "location is not valide";
+
+self.post = (id, inputLocation) => {
+
+    inputLocation.created_at = Date.now();
+    inputLocation.last_update = Date.naw();
+
+    let location = new Location((validate.allInput(inputLocation)));
+
+    if (!location.isValid()){
+        return {
+            status: 400,
+            result: 'l\'event n\'est pas valide',
+            err: {
+                status: 400,
+                message: 'syntax error'
+            }
+        }
     }
+
+    return db.post(self.collection, location)
 };
+
 self.delete = (query) => {
     return db.delete(self.collection, query)
 };
 self.patch = (id, params) => {
+
+    let location = new Location((validate.allInput(inputLocation)));
+
+    if (!location.fullFieldsValids()){
+        return {
+            status: 400,
+            result: 'l\'event n\'est pas valide',
+            err: {
+                status: 400,
+                message: 'syntax error'
+            }
+        }
+    }
     return db.patch(self.collection, id, params)
 };
 

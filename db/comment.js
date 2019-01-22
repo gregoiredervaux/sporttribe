@@ -1,70 +1,100 @@
-const url = require('../config/db');
+
 const db = require('./utils');
 const validate = require ('../lib/validate');
 
-class Comment {
+function Comment (comment) {
 
-    constructor(comment) {
-
-        if (Comment.isValid(comment)) {
-            this.id = comment.id;
-            this.from = comment.from;
-            this.to_event = comment.to_event;
-            this.after = comment.after;
-            this.sent_at = comment.sent_at;
-            this.content = comment.content
-        } else {
-            console.log("comment pas bon")
-        }
-    }
-
-    static isValid(comment) {
-        return comment.id >= 0 &&
-            comment.from >=0 &&
-            comment.to_event >=0 &&
-            (comment.after >=0 || comment.after === "root") &&
-            db.utils.isDate(comment.sent_at) &&
-            toString(comment.content)
-    }
+    this.id = comment.id;
+    this.from = comment.from;
+    this.to_event = comment.to_event;
+    this.after = comment.after;
+    this.sent_at = comment.sent_at;
+    this.content = comment.content
 }
+
+Comment.prototype = {
+
+    constructor: Comment,
+
+    testFields: function (){
+      return [
+          validate.isInt(this.id),
+          validate.isInt(this.from),
+          validate.isInt(this.to_event),
+          validate.isInt(this.after),
+          validate.isDate(this.sent_at),
+          validate.isString(this.content)
+      ]
+    },
+
+    isValid: function () {
+        const arrayTest = this.testFields();
+        for (let test in arrayTest){
+            if (!test){
+                return false
+            }
+        }
+        return true
+    },
+
+    fullFieldsValids: function () {
+
+        const arrayTest = this.testFields();
+        for (let test in arrayTest){
+            if (test === false){
+                return false
+            }
+        }
+        return true
+    }
+};
 
 const self = {};
 
 self.collection = "comments";
 
 self.get = (query = {}, sort = {}) => {
-    console.log("test2: " + self.collection);
     return db.get(self.collection, query, sort)
 };
-self.post = (id, comment) => {
-    if (Comment.isValide(comment)) {
-        return MongoClient.connect(url)
-            .then(database => {
-                let dbo = database.db("sporttribe");
-                dbo.collection(self.collection).insert(comment)
-            })
-            .then(result => {
-                return {
-                    status: 200
-                }
-            })
-            .catch(err => {
-                return {
-                    status: 500,
-                    result: JSON.stringify(err)
-                }
-            })
-    } else {
-        console.log("comment is not valide");
+
+self.post = (id, inputComment) => {
+
+    inputComment.sent_at = Date.now();
+
+    let comment = new Comment(validate.allInput(inputComment));
+
+    if (!comment.isValid()){
         return {
-            status: 400
+            status: 400,
+            result: 'le commentaire n\'est pas valide',
+            err: {
+                status: 400,
+                message: 'syntax error'
+            }
         }
     }
+
+    return db.post(self.collection, comment)
 };
+
 self.delete = (query) => {
     return db.delete(self.collection, query)
 };
+
 self.patch = (id, params) => {
+
+    let comment = new Comment(validate.allInput(params));
+
+    if (!comment.fullFieldsValids()){
+        return {
+            status: 400,
+            result: 'l\'les parametres ne sont pas valide',
+            err: {
+                status: 400,
+                message: 'syntax error'
+            }
+        }
+    }
     return db.patch(self.collection, id, params)
 };
 
