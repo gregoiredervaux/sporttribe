@@ -5,7 +5,7 @@ const validate = require('../../lib/validate');
 
 router.get('/:id', (req, res) => {
 
-    if (validate.isInt(req.params.id)){
+    if (validate().isInt(req.params.id)){
         res.status(400).send()
     }
     locationDB.get({id: parseInt(req.params.id)})
@@ -28,8 +28,8 @@ router.post('/', (req, res) => {
 
 router.post('/:id/sports/:idSports', (req, res) => {
 
-    if (!validate.isInt(req.params.id) ||
-        !validate.isInt(req.params.idSport)){
+    if (!validate().isInt(req.params.id) ||
+        !validate().isInt(req.params.idSport)){
         res.status(400).send()
     }
     locationDB.get({id: parseInt(req.params.id)})
@@ -60,7 +60,7 @@ router.post('/:id/sports/:idSports', (req, res) => {
 });
 
 router.patch('/:id/', (req, res) => {
-    if (!validate.isInt(req.params.id)){
+    if (!validate().isInt(req.params.id)){
         res.status(400).send()
     }
     locationDB.patch(req.params.id, req.body)
@@ -75,8 +75,8 @@ router.patch('/:id/', (req, res) => {
 });
 
 router.delete('/:id/sports/:idSports', (req, res) => {
-    if (!validate.isInt(req.params.id) ||
-        !validate.isInt(req.params.idSports)){
+    if (!validate().isInt(req.params.id) ||
+        !validate().isInt(req.params.idSports)){
         res.status(400).send()
     }
     locationDB.get({id: parseInt(req.params.id)})
@@ -101,7 +101,7 @@ router.delete('/:id/sports/:idSports', (req, res) => {
 
 router.delete('/:id', (req, res) => {
 
-    if (!validate.isInt(req.params.id)){
+    if (!validate().isInt(req.params.id)){
         res.status(400).send()
     }
     locationDB.delete(parseInt(req.params.id))

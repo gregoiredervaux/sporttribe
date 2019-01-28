@@ -4,7 +4,7 @@ const messageDB = require ('../../db/messag');
 const validate = require('../../lib/validate');
 
 router.get("/to/:id_to/from/:idFrom", (req, res) => {
-    if (!validate.isInt(req.params.id)){
+    if (!validate().isInt(req.params.id)){
         res.status(400).send()
     } else if (req.session.id !== req.params.id &&
                 req.session.id !== req.params.idFrom) {

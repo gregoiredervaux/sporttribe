@@ -7,10 +7,10 @@ const validate = require('../../lib/validate');
 
 router.get('/:id', (req, res) => {
 
-    if(!validate.isInt(req.params.id)){
+    if(!validate().isInt(req.params.id)){
         res.status(400).send()
     }
-    evenDB.get({id: parseInt(req.params.id)})
+    eventDB.get({id: parseInt(req.params.id)})
         .then(responce => {
             res.status(responce.status).json(responce.result)
         })
@@ -26,8 +26,8 @@ router.get("/", (req, res) => {
 
 router.post('/:id/players/:idPlayer', (req, res) => {
 
-    if (!validate.isInt(req.params.id) ||
-        !validate.isInt(req.params.idPlayer)){
+    if (!validate().isInt(req.params.id) ||
+        !validate().isInt(req.params.idPlayer)){
         res.status(400).send()
     }
     evenDB.get({id: parseInt(req.params.id)})
@@ -36,6 +36,7 @@ router.post('/:id/players/:idPlayer', (req, res) => {
                 res.status(responce.status).json(responce.result)
             } else {
                 if (!responce.players) {
+                    console.log('post get error: !responce.players');
                     res.status(500).send("internal error");
                 } else {
 
@@ -58,7 +59,7 @@ router.post('/:id/players/:idPlayer', (req, res) => {
 
 router.post('/', (req, res) => {
 
-    eventDB.post(req.body.id, req.body)
+    eventDB.post(req, req.body.id, req.body)
         .then(responce => {
             res.status(responce.status).json(responce.result)
         })
@@ -70,7 +71,7 @@ router.post('/', (req, res) => {
 
 router.patch('/:id/', (req, res) => {
 
-    if (!validate.isInt(req.params.id)){
+    if (!validate().isInt(req.params.id)){
         res.status(400).send()
     }
     evenDB.get({id: parseInt(req.params.id)})
@@ -93,8 +94,8 @@ router.patch('/:id/', (req, res) => {
 });
 
 router.delete('/:id/remove/:idPlayer', (req, res) => {
-    if (!validate.isInt(req.params.id) ||
-        !validate.isInt(req.params.idPlayer)){
+    if (!validate().isInt(req.params.id) ||
+        !validate().isInt(req.params.idPlayer)){
         res.status(400).send()
     }
     eventDB.get({id: parseInt(req.params.id)})
@@ -119,7 +120,7 @@ router.delete('/:id/remove/:idPlayer', (req, res) => {
 
 router.delete('/:id', (req, res) => {
 
-    if (!validate.isInt(req.params.id)){
+    if (!validate().isInt(req.params.id)){
         res.status(400).send()
     }
     evendDB.delete(parseInt(req.params.id))
@@ -134,7 +135,7 @@ router.delete('/:id', (req, res) => {
 
 router.get('/:id/comments', (req, res) => {
 
-    if (!validate.isInt(req.params.id)){
+    if (!validate().isInt(req.params.id)){
         res.status(400).send()
     }
     commentDB.get({to_event: parseInt(req.params.id)})
@@ -149,8 +150,8 @@ router.get('/:id/comments', (req, res) => {
 
 router.get('/:id/comments/:idComment', (req, res) => {
 
-    if (!validate.isInt(req.params.id) ||
-        !validate.isInt(req.params.idComment)){
+    if (!validate().isInt(req.params.id) ||
+        !validate().isInt(req.params.idComment)){
         res.status(400).send()
     }
     commentDB.get({
@@ -167,7 +168,7 @@ router.get('/:id/comments/:idComment', (req, res) => {
 });
 
 router.post('/:id/comments', (req, res) => {
-    if (!validate.isInt(req.params.id)){
+    if (!validate().isInt(req.params.id)){
         res.status(400).send()
     }
     commentDB.post(parseInt(req.params.id), req.body)
@@ -183,8 +184,8 @@ router.post('/:id/comments', (req, res) => {
 
 router.patch('/:id/comments/:id_comment', (req, res) => {
 
-    if (!validate.isInt(req.params.id) ||
-        !validate.isInt(req.params.idComment)){
+    if (!validate().isInt(req.params.id) ||
+        !validate().isInt(req.params.idComment)){
         res.status(400).send()
     }
     commentDB.get({

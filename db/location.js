@@ -19,14 +19,14 @@ Location.prototype = {
 
     testFields: function () {
         return [
-            validate.isInt(this.id),
-            validate.isString(this.name),
-            validate.isString(this.adress),
-            validate.isString(this.city),
-            validate.isPostCode(this.postcode),
-            validate.isDate(this.created_at),
-            validate.isDate(this.last_update),
-            validate.isArray(this.sport_available)
+            validate().isInt(this.id),
+            validate().isString(this.name),
+            validate().isString(this.adress),
+            validate().isString(this.city),
+            validate().isPostCode(this.postcode),
+            validate().isDate(this.created_at),
+            validate().isDate(this.last_update),
+            validate().isArray(this.sport_available)
         ]
     },
 
@@ -66,7 +66,7 @@ self.post = (id, inputLocation) => {
     inputLocation.created_at = Date.now();
     inputLocation.last_update = Date.naw();
 
-    let location = new Location((validate.allInput(inputLocation)));
+    let location = new Location((validate().allInput(inputLocation)));
 
     if (!location.isValid()){
         return {
@@ -87,7 +87,7 @@ self.delete = (query) => {
 };
 self.patch = (id, params) => {
 
-    let location = new Location((validate.allInput(inputLocation)));
+    let location = new Location((validate().allInput(inputLocation)));
 
     if (!location.fullFieldsValids()){
         return {

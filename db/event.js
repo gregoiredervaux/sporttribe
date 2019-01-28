@@ -27,20 +27,20 @@ Event.prototype = {
 
     testFields: function () {
         return [
-            validate.isInt(this.id),
-            validate.isString(this.name),
-            validate.isString(this.description),
-            validate.isArray(this.players),
-            validate.isDate(this.date),
-            validate.isBoolean(this.opened),
-            validate.isFloat(this.price),
-            validate.isDate(this.created_at),
-            validate.isDate(this.last_update),
-            validate.isInt(this.location_id),
-            validate.isString(this.sport_id),
-            validate.isInt(this.creator_id),
-            validate.isInt(this.captain_id),
-            validate.isInt(this.groupe_id)
+            validate().isInt(this.id),
+            validate().isString(this.name),
+            validate().isString(this.description),
+            validate().isArray(this.players),
+            validate().isDate(this.date),
+            validate().isBoolean(this.opened),
+            validate().isFloat(this.price),
+            validate().isDate(this.created_at),
+            validate().isDate(this.last_update),
+            validate().isInt(this.location_id),
+            validate().isString(this.sport_id),
+            validate().isInt(this.creator_id),
+            validate().isInt(this.captain_id),
+            validate().isInt(this.groupe_id)
         ]
     },
 
@@ -74,7 +74,7 @@ const self = {};
         return db.get(self.collection, query, sort)
     };
 
-    self.post = (id, inputEvent) => {
+    self.post = (req, id, inputEvent) => {
 
         inputEvent.created_at = Date.now();
         inputEvent.last_update = Date.now();
@@ -82,7 +82,7 @@ const self = {};
         inputEvent.captain_id = req.session.id;
         inputEvent.groupe_id = req.session.group;
 
-        let event = new Event(validate.allInput(inputEvent));
+        let event = new Event(validate().allInput(inputEvent));
 
         if (!event.isValid()){
             return {
@@ -104,7 +104,7 @@ const self = {};
 
     self.patch = (id, params) => {
 
-        let event = new Event(validate.allInput(params));
+        let event = new Event(validate().allInput(params));
 
         if (!event.fullFieldsValids()){
             return {

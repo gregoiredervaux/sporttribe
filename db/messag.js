@@ -17,12 +17,12 @@ Message.prototype =  {
 
     testFields: function () {
         return [
-            validate.isInt(this.id),
-            validate.isInt(this.from),
-            validate.isInt(this.to),
-            validate.isDate(this.sent_at),
-            validate.isDate(this.seen_at),
-            validate.isString(this.content)
+            validate().isInt(this.id),
+            validate().isInt(this.from),
+            validate().isInt(this.to),
+            validate().isDate(this.sent_at),
+            validate().isDate(this.seen_at),
+            validate().isString(this.content)
         ]
     },
 
@@ -49,7 +49,7 @@ Message.prototype =  {
 
 };
 
-const self = {}
+const self = {};
 
 self.collection = "messages";
 
@@ -61,7 +61,7 @@ self.post = (id, inputMessage) => {
 
     inputMessage.sent_at = Date.now();
 
-    let message = new Message(validate.allInput(inputMessage));
+    let message = new Message(validate().allInput(inputMessage));
 
     if (!message.fullFieldsValids()){
         return {

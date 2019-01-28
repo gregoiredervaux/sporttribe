@@ -2,13 +2,11 @@
 
 const express = require("express");
 const path = require("path");
-const http = require("http");
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
-const init = require ('./db/init').init;
-const auth = require ('./lib/auth');
 const validate  = require ('./lib/validate');
+const init = require('./db/init');
 // build the app
 const app = express();
 
@@ -26,6 +24,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, "public")));
+
 
 
 //routes
@@ -66,13 +65,15 @@ app.use(session({
     secret: 'sporttribe5805',
     resave: false,
     saveUninitialized: true,
+    id: 1,
+    group: 1,
     cookie: { secure: false }
 }));
 
 //on valide les données d'entrée
 
-app.use((req, next) => {
-   validate.allInput(req);
+app.use((req, res, next) => {
+   validate().allInput(req);
    next();
 });
 

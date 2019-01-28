@@ -5,7 +5,7 @@ const validate = require('../../lib/validate');
 
 router.get('/:id', (req, res) => {
 
-    if (validate.isInt(req.params.id)){
+    if (validate().isInt(req.params.id)){
         res.status(400).send()
     }
     sportDB.get({id: parseInt(req.params.id)})
@@ -16,7 +16,7 @@ router.get('/:id', (req, res) => {
 
 router.get("/", (req, res) => {
 
-    if (validate.isInt(req.params.id)){
+    if (validate().isInt(req.params.id)){
         res.status(400).send()
     }
     sportDB.get()

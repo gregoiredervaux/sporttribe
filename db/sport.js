@@ -14,10 +14,10 @@ Sport.prototype = {
 
     testFields: function () {
         return [
-            validate.isInt(this.id),
-            validate.isString(this.name),
-            validate.isArray(this.requirement),
-            validate.isPicture(this.this.icon)
+            validate().isInt(this.id),
+            validate().isString(this.name),
+            validate().isArray(this.requirement),
+            validate().isPicture(this.this.icon)
         ]
     },
 
@@ -53,7 +53,7 @@ self.get = (query = {}, sort = {}) => {
 
 self.post = (id, inputSport) => {
 
-    let sport = new Sport(validate.allInput(inputSport));
+    let sport = new Sport(validate().allInput(inputSport));
 
     if (!sport.isValid()){
         return {
@@ -72,7 +72,7 @@ self.delete = (query) => {
     return db.delete(self.collection, query)
 };
 self.patch = (id, params) => {
-    let sport = new Event(validate.allInput(params));
+    let sport = new Event(validate().allInput(params));
 
     if (!sport.fullFieldsValids()){
         return {

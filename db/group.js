@@ -1,7 +1,7 @@
 var url = require('../config/db');
 var db = require('./utils').db;
 
-let collection = 'activity';
+let collection = 'groups';
 
 class Group {
 

@@ -28,22 +28,22 @@ Profil.prototype = {
 
     testFields: function () {
         return [
-            validate.isInt(this.id),
-            validate.isString(this.firstName),
-            validate.isString(this.lastName),
-            validate.isEmail(this.email),
-            validate.isString(this.encrypted_password),
-            validate.isString(this.reset_password_token),
-            validate.isDate((this.reset_password_token_sent_at)),
-            validate.isInt(this.sign_in_count),
-            validate.isDate(this.last_sign_at),
-            validate.isIp(this.current_sign_in_ip),
-            validate.isDate(this.created_at),
-            validate.isDate(this.last_update),
-            validate.isInt(this.groups_id),
-            validate.isPicture(this.picture),
-            validate.isDate((this.confirmation_sent_at)),
-            validate.isEmail(this.unconfirmed_email)
+            validate().isInt(this.id),
+            validate().isString(this.firstName),
+            validate().isString(this.lastName),
+            validate().isEmail(this.email),
+            validate().isString(this.encrypted_password),
+            validate().isString(this.reset_password_token),
+            validate().isDate((this.reset_password_token_sent_at)),
+            validate().isInt(this.sign_in_count),
+            validate().isDate(this.last_sign_at),
+            validate().isIp(this.current_sign_in_ip),
+            validate().isDate(this.created_at),
+            validate().isDate(this.last_update),
+            validate().isInt(this.groups_id),
+            validate().isPicture(this.picture),
+            validate().isDate((this.confirmation_sent_at)),
+            validate().isEmail(this.unconfirmed_email)
         ]
     },
 
@@ -72,7 +72,7 @@ Profil.prototype = {
 
 const self = {};
 
-self.collection = "utilisateurs";
+self.collection = "users";
 
 self.get = (query = {}, sort = {}) => {
     return db.get(self.collection, query, sort)
@@ -89,7 +89,7 @@ self.post = (id, inputUser) => {
     inputUser.last_update = Date.now();
     inpuUser.confirmation_sent_at = Date.now();
 
-    let user = new User(validate.allInput(inputUser));
+    let user = new User(validate().allInput(inputUser));
 
     if (!user.isValid()){
         return {
@@ -111,7 +111,7 @@ self.delete = (query) => {
 
 self.patch = (id, params) => {
 
-    let user = new User(validate.allInput(inputUser));
+    let user = new User(validate().allInput(inputUser));
 
     if (!user.fullFieldsValids()){
         return {

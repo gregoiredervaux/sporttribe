@@ -18,12 +18,12 @@ Comment.prototype = {
 
     testFields: function (){
       return [
-          validate.isInt(this.id),
-          validate.isInt(this.from),
-          validate.isInt(this.to_event),
-          validate.isInt(this.after),
-          validate.isDate(this.sent_at),
-          validate.isString(this.content)
+          validate().isInt(this.id),
+          validate().isInt(this.from),
+          validate().isInt(this.to_event),
+          validate().isInt(this.after),
+          validate().isDate(this.sent_at),
+          validate().isString(this.content)
       ]
     },
 
@@ -61,7 +61,7 @@ self.post = (id, inputComment) => {
 
     inputComment.sent_at = Date.now();
 
-    let comment = new Comment(validate.allInput(inputComment));
+    let comment = new Comment(validate().allInput(inputComment));
 
     if (!comment.isValid()){
         return {
@@ -83,7 +83,7 @@ self.delete = (query) => {
 
 self.patch = (id, params) => {
 
-    let comment = new Comment(validate.allInput(params));
+    let comment = new Comment(validate().allInput(params));
 
     if (!comment.fullFieldsValids()){
         return {

@@ -5,7 +5,7 @@ const validate = require('../../lib/validate');
 
 router.get('/:id', (req, res) => {
 
-    if (!validate.isInt(req.params.id)){
+    if (!validate().isInt(req.params.id)){
         res.status(400).send()
     }
 
@@ -33,7 +33,7 @@ router.post('/', (req, res) => {
 
 router.patch('/:id/', (req, res) => {
 
-    if (!validate.isInt(req.params.id)){
+    if (!validate().isInt(req.params.id)){
         res.status(400).send()
     } else if (parseInt(req.params.id) !== req.session.id){
         res.status(403).json("vous n'est pas cette personne")
