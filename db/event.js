@@ -76,8 +76,9 @@ const self = {};
 
     self.post = (req, id, inputEvent) => {
 
-        inputEvent.created_at = Date.now();
-        inputEvent.last_update = Date.now();
+        let date = new Date();
+        inputEvent.created_at = date.toUTCString();
+        inputEvent.last_update = date.toUTCString();
         inputEvent.creator_id = req.session.id;
         inputEvent.captain_id = req.session.id;
         inputEvent.groupe_id = req.session.group;
@@ -99,7 +100,7 @@ const self = {};
     };
 
     self.delete = (query) => {
-        return db.delete(self.collection, query)
+        return db.delete(self.collection, query);
     };
 
     self.patch = (id, params) => {

@@ -47,7 +47,6 @@ self.get = (collection, query = {}, sort = {}, max = 20) => {
             if (query === {}) {
                 return {status: 200, result: result};
             } else {
-                console.log('result: ' + JSON.stringify(result));
                 switch (result.length) {
                     case null || undefined:
                         console.log("retour null");
@@ -74,7 +73,7 @@ self.get = (collection, query = {}, sort = {}, max = 20) => {
                             }
                         }
                     case 1:
-                        console.log('retour 1 element');
+                        console.log('retour 1 element => id: ' + result[0]["id"]);
                         return {
                             status: 200,
                             result: result[0]
@@ -103,17 +102,20 @@ self.delete = (collection, query) => {
     console.log("debugger delete:");
     console.log("   collection: " + JSON.stringify(collection));
     console.log("   query: " + JSON.stringify(query));
-    MongoClient.connect(url)
+    return MongoClient.connect(url)
         .then((database) => {
             let dbo = database.db("sporttribe");
             dbo.collection(collection)
-                .deleteMany(query)
-                .then((result) => {
-                    return {status: 200, result: result}
-                })
-                .catch((err) => {
-                    error_handler(err)
-                })
+                .deleteOne(query)
+        })
+        .then((result) => {
+            return {
+                status: 200,
+                result: result
+            };
+        })
+        .catch((err) => {
+            error_handler(err)
         })
 };
 
@@ -125,7 +127,13 @@ self.delete = (collection, query) => {
  */
 
 self.patch = (collection, id, params) => {
-    self.get(collection, id, {})
+
+    console.log("debugger patch:");
+    console.log("   collection: " + JSON.stringify(collection));
+    console.log("   id: " + JSON.stringify(id));
+    console.log("   object: " + JSON.stringify(params));
+
+    return self.get(collection, id, {})
         .then(responce => {
             if (!responce.status || responce.status !== 200) {
                 console.log("id présenté n'est pas bon, put impossible");
@@ -134,9 +142,9 @@ self.patch = (collection, id, params) => {
                 return MongoClient.connect(url)
                     .then(database => {
                         let dbo = database.db("sporttribe");
-                        return dbo.collection(collection).update({id: id}, {$set: params})
+                        return dbo.collection(collection).updateOne({id: parseInt(id)}, {$set: params})
                     })
-                    .then( () => {
+                    .then(() => {
                         return {
                             status: 200,
                             result: null
@@ -148,7 +156,7 @@ self.patch = (collection, id, params) => {
             }
         })
         .catch((err) => {
-            error_handler(err, 'probleme lors de la vérification de l\'existance de l\'event');
+            error_handler(err, 'probleme lors de la vérification de l\'existance de l\'object');
         })
 };
 
@@ -165,7 +173,7 @@ self.post = (collection, object) => {
     console.log("   object: " + JSON.stringify(object));
 
     if (object.id){
-        self.get(collection, {id: parseInt(id)})
+        return self.get(collection, {id: parseInt(id)})
             .then( responce => {
                 if (responce.result.id){
                     console.log('l\'id existe déjà');
@@ -176,17 +184,19 @@ self.post = (collection, object) => {
                 }
             })
     } else {
-        self.get(collection, {}, {id: -1}, 1)
+        return self.get(collection, {}, {id: -1}, 1)
             .then(responce => {
-                event.id = parseInt(responce.result.id);
+                object.id = parseInt(responce.result.id) + 1;
+                console.log("avant insertion, attrib id: " + object.id);
                 return MongoClient.connect(url)
                     .then(database => {
                         let dbo = database.db("sporttribe");
-                        return dbo.collection(self.collection).insert(event)
+                        return dbo.collection(collection).insertOne(object)
                     })
-                    .then( () => {
+                    .then(() => {
                         return {
-                            status: 200
+                            status: 200,
+                            result: object.id
                         }
                     })
                     .catch((err) => {
@@ -194,7 +204,7 @@ self.post = (collection, object) => {
                     })
             })
             .catch((err) => {
-                error_handler(err, 'probleme lors de la verification du post de l\'event')
+                error_handler(err, 'probleme lors de la verification du post')
             })
     }
 };

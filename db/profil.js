@@ -2,7 +2,7 @@ var db = require('./utils');
 const validate = require ('../lib/validate');
 
 
-function Profil (profil){
+function Profil (user){
 
     this.id = user.id;
     this.firstName = user.firstName;
@@ -78,7 +78,7 @@ self.get = (query = {}, sort = {}) => {
     return db.get(self.collection, query, sort)
 };
 
-self.post = (id, inputUser) => {
+self.post = (req, id, inputUser) => {
 
     inputUser.reset_password_token = "None";
     inputUser.reset_password_token_sent_at = Date.now();
@@ -87,9 +87,9 @@ self.post = (id, inputUser) => {
     inputUser.current_sign_in_ip = req.connection.remoteAddress;
     inputUser.created_at = Date.now();
     inputUser.last_update = Date.now();
-    inpuUser.confirmation_sent_at = Date.now();
+    inputUser.confirmation_sent_at = Date.now();
 
-    let user = new User(validate().allInput(inputUser));
+    let user = new Profil(validate().allInput(inputUser));
 
     if (!user.isValid()){
         return {
@@ -111,7 +111,7 @@ self.delete = (query) => {
 
 self.patch = (id, params) => {
 
-    let user = new User(validate().allInput(inputUser));
+    let user = new Profil(validate().allInput(params));
 
     if (!user.fullFieldsValids()){
         return {

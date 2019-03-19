@@ -80,7 +80,7 @@ app.use((req, res, next) => {
 app.use("/api/groups", api.group);
 app.use("/api/messages", api.message);
 app.use("/api/events", api.event);
-app.use("/api/profiles", api.profil);
+app.use("/api/users", api.profil);
 app.use("/api/sports", api.sport);
 app.use("/api/locations", api.location);
 
@@ -96,6 +96,7 @@ app.use((req, res, next)=> {
     console.log("url: " + req.url);
     const err = new Error("Not Found");
     err.status = 404;
+    err.message = "le champs que vous avez renseigner en URL n'existe pas";
     next(err);
 });
 

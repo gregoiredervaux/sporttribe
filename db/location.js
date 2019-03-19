@@ -63,8 +63,9 @@ self.get = (query = {}, sort = {}) => {
 
 self.post = (id, inputLocation) => {
 
-    inputLocation.created_at = Date.now();
-    inputLocation.last_update = Date.naw();
+    let date = new Date();
+    inputLocation.created_at = date.toUTCString();
+    inputLocation.last_update = date.toUTCString();
 
     let location = new Location((validate().allInput(inputLocation)));
 
@@ -87,7 +88,7 @@ self.delete = (query) => {
 };
 self.patch = (id, params) => {
 
-    let location = new Location((validate().allInput(inputLocation)));
+    let location = new Location((validate().allInput(params)));
 
     if (!location.fullFieldsValids()){
         return {

@@ -15,18 +15,20 @@ router.get('/:id', (req, res) => {
                 res.status(403)
                     .json("vous n'avez pas accès a cet utilisteur, vous ne faites pas parti de son groupe")
             }
-            res.status(responce.status).json(responce.responce)
+            console.log("reponse :" + JSON.stringify(responce));
+            res.status(responce.status).json(responce.result)
         })
 });
 
 router.post('/', (req, res) => {
 
-    userDB.post(req.body.id, req.body)
+    userDB.post(req, req.body.id, req.body)
         .then(responce => {
-            res.status(responce.status).json(responce.result)
+            res.status(responce.status).send(
+                "GET http://localhost/api/users/" + responce.result)
         })
         .catch(err => {
-            console.log('post get error: ' + JSON.stringify(err));
+            console.log('post get error: ' + JSON.stringify(err.message));
             res.status(500).send('internal error')
         });
 });
@@ -37,16 +39,17 @@ router.patch('/:id/', (req, res) => {
         res.status(400).send()
     } else if (parseInt(req.params.id) !== req.session.id){
         res.status(403).json("vous n'est pas cette personne")
+    } else {
+        userDB.patch(req.params.id, req.body)
+            .then(responce => {
+                res.status(responce.status)
+                    .send('GET /api/user/'+ toString(req.params.id));
+            })
+            .catch(err => {
+                console.log('post get error: ' + JSON.stringify(err.message));
+                res.status(500).send('internal error')
+            })
     }
-    evenDB.patch(req.params.id, req.body)
-        .then(responce => {
-            res.status(responce.status)
-                .send('GET /api/user/'+ toString(req.params.id));
-        })
-        .catch(err => {
-            console.log('post get error: ' + JSON.stringify(err));
-            res.status(500).send('internal error')
-        })
 });
 
 module.exports = router;
