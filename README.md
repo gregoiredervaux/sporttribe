@@ -173,7 +173,7 @@ Les ressources accessibles sont:
 
 > pas de retour en arriere possible
 
-###commentaire
+### Commentaire
 
 + object commentaire:
 

@@ -1,5 +1,4 @@
 // build dependencies:
-
 const express = require("express");
 const path = require("path");
 const bodyParser = require('body-parser');
@@ -7,6 +6,9 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const validate  = require ('./lib/validate');
 const init = require('./db/init');
+var passport = require("passport")
+    , LocalStrategy = require('passport-local').Strategy;
+const userDB = require('./db/profil');
 // build the app
 const app = express();
 
@@ -24,8 +26,42 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, "public")));
+// initialize the session
+app.use(session({
+    secret: 'sporttribe5805',
+    resave: false,
+    saveUninitialized: true,
+    group: 1,
+    cookie: { secure: false }
+}));
 
+app.use(passport.initialize());
+app.use(passport.session());
 
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+        return userDB.get({email: username})
+            .then(responce => {
+                if (responce.status === 404){
+                    return done(null, false, { message: 'unkown email'})
+                }
+                if (responce.result.password !== password){
+                    return done(null, false, { message: 'wrong password'})
+                }
+                return done(null, {id: responce.result.id})
+            })
+            .catch(err => {
+                return done(err)
+            })
+    }
+));
+
+passport.serializeUser((user, done) => {
+    done(null, user.id)
+});
+passport.deserializeUser((id, done) => {
+    done(null, {id: id})
+});
 
 //routes
 const index = require("./routes/index");
@@ -43,32 +79,20 @@ const api = {
     location: require("./routes/api/location"),
 };
 
-//authentification
-/*
-app.use(cookieParser());
-app.use((req, res, next) => {
-
-    if (req.cookie('sessionToken')){
-        (auth.checkToken(req))? next() : auth.resetConnexion(res);
-    } else if(req.body.email && req.body.encrypted_password){
-        (auth.checkPassword(
-            req.body.email,
-            req.body.encrypted_password))? next(): auth.resetConnexion(res);
-    } else {
-        auth.resetConnexion(res);
+app.post('/api/login',
+    passport.authenticate('local'), () => {
+        res.status(200).send()
     }
-    next();
+);
+
+//on authentifie l'auteur
+app.all('/*', (req, res, next) => {
+    if (!req.isAuthenticated()){
+        res.status(403).send("not authentificate");
+    } else {
+        next();
+    }
 });
-*/
-// initialize the session
-app.use(session({
-    secret: 'sporttribe5805',
-    resave: false,
-    saveUninitialized: true,
-    id: 1,
-    group: 1,
-    cookie: { secure: false }
-}));
 
 //on valide les données d'entrée
 
@@ -83,7 +107,6 @@ app.use("/api/events", api.event);
 app.use("/api/users", api.profil);
 app.use("/api/sports", api.sport);
 app.use("/api/locations", api.location);
-
 app.use("/login", login);
 app.use("/group", group);
 app.use("/event", event);

@@ -4,11 +4,10 @@ const eventDB = require('../../db/event');
 const commentDB = require ('../../db/comment');
 const validate = require('../../lib/validate');
 
-
 router.get('/:id', (req, res) => {
 
     if(!validate().isInt(req.params.id)){
-        res.status(400).send()
+        res.status(400).send("not a good id")
     }
     eventDB.get({id: parseInt(req.params.id)})
         .then(responce => {
