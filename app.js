@@ -1,16 +1,21 @@
 // build dependencies:
 const express = require("express");
+const app = express();
 const path = require("path");
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const validate  = require ('./lib/validate');
+const router = express.Router();
 const init = require('./db/init');
 var passport = require("passport")
-    , LocalStrategy = require('passport-local').Strategy;
+    , LocalStrategy = require('passport-local').Strategy
+    , BasicStrategy = require('passport-http').BasicStrategy;
+const logger_app = require('./lib/log_app');
+const logger_user = require('./lib/log_user');
 const userDB = require('./db/profil');
 // build the app
-const app = express();
+
 
 // config views
 app.set('view engine', 'ejs');
@@ -21,17 +26,16 @@ app.set('views', path.join(__dirname, "views"));
 app.use(express.static(__dirname + '/public'));
 
 // config form
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, "public")));
+
 // initialize the session
 app.use(session({
     secret: 'sporttribe5805',
     resave: false,
     saveUninitialized: true,
-    group: 1,
     cookie: { secure: false }
 }));
 
@@ -40,14 +44,20 @@ app.use(passport.session());
 
 passport.use(new LocalStrategy(
     function(username, password, done) {
-        return userDB.get({email: username})
+        userDB.get({email: username})
             .then(responce => {
+                console.log("responce.status: " + responce.status);
+                console.log("password: " + password);
+                console.log("responce.result" + JSON.stringify(responce.result));
                 if (responce.status === 404){
+                    console.log('unkown email');
                     return done(null, false, { message: 'unkown email'})
                 }
-                if (responce.result.password !== password){
+                if (responce.result.encrypted_password !== password){
+                    console.log('wrong password');
                     return done(null, false, { message: 'wrong password'})
                 }
+                console.log("that's the good one");
                 return done(null, {id: responce.result.id})
             })
             .catch(err => {
@@ -79,14 +89,16 @@ const api = {
     location: require("./routes/api/location"),
 };
 
-app.post('/api/login',
-    passport.authenticate('local'), () => {
+app.post('/api/login/',
+    passport.authenticate('local', {session: true}), (req, res) => {
+        logger_user.info("authentification");
         res.status(200).send()
     }
 );
 
 //on authentifie l'auteur
-app.all('/*', (req, res, next) => {
+app.use((req, res, next) => {
+    console.log("req.isAuthenticated() " + req.isAuthenticated());
     if (!req.isAuthenticated()){
         res.status(403).send("not authentificate");
     } else {
@@ -107,7 +119,7 @@ app.use("/api/events", api.event);
 app.use("/api/users", api.profil);
 app.use("/api/sports", api.sport);
 app.use("/api/locations", api.location);
-app.use("/login", login);
+app.use("/api/login", login);
 app.use("/group", group);
 app.use("/event", event);
 app.use("/profil", profil);
@@ -119,7 +131,7 @@ app.use((req, res, next)=> {
     console.log("url: " + req.url);
     const err = new Error("Not Found");
     err.status = 404;
-    err.message = "le champs que vous avez renseigner en URL n'existe pas";
+    err.message = "le champs que vous avez renseigner en URL n'existe pas: " + req.url;
     next(err);
 });
 

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const utils = require('../lib/routes_utils');
 
-router.get("/", (req, res) => {
+router.post("/", (req, res) => {
     res.render("index", {
         title: "Authentification",
         message: {
