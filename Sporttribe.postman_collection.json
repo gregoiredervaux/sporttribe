@@ -104,33 +104,41 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:3000/events/0/players/0",
+					"raw": "http://localhost:3000/api/events/0/players/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
+						"api",
 						"events",
 						"0",
 						"players",
-						"0"
+						"3"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "events/0?price=15&date=2018-10-29 20:20:20",
+			"name": "events/0",
 			"request": {
 				"method": "PATCH",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\n\t\"price\": 15,\n\t\"date\": \"2018-10-29 20:20:20\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/events/0?price=15&date=2018-10-29 20:20:20",
+					"raw": "http://localhost:3000/api/events/0",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -140,16 +148,6 @@
 						"api",
 						"events",
 						"0"
-					],
-					"query": [
-						{
-							"key": "price",
-							"value": "15"
-						},
-						{
-							"key": "date",
-							"value": "2018-10-29 20:20:20"
-						}
 					]
 				}
 			},
@@ -294,6 +292,33 @@
 			"response": []
 		},
 		{
+			"name": "events/0/comments/0",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/events/0/comments/0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"events",
+						"0",
+						"comments",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "users/0",
 			"request": {
 				"method": "GET",
@@ -319,20 +344,20 @@
 			"response": []
 		},
 		{
-			"name": "users/0",
+			"name": "users/",
 			"request": {
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
 						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
+						"type": "text",
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"first_name\": \"guillaume\",\n  \"last_name\": \"Denac\",\n  \"email\": \"gui@dev.fr\",\n  \"encrypted_password\": \"motdepasse\",\n  \"groups_id\": [\n      0\n  ],\n  \"picture\": \"pict_prof_gui.png\"\n}"
+					"raw": "{\n  \"firstName\": \"guillaume\",\n  \"lastName\": \"Denac\",\n  \"email\": \"gui@dev.fr\",\n  \"encrypted_password\": \"motdepasse\",\n  \"groups_id\": [\n      0\n  ],\n  \"picture\": \"pict_prof_gui.png\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3000/api/users",
@@ -350,16 +375,23 @@
 			"response": []
 		},
 		{
-			"name": "users/0?first_name=test_prenom&last_name=test2",
+			"name": "users/0",
 			"request": {
 				"method": "PATCH",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\n\t\"first_name\": \"test_prenom\",\n\t\"last_name\": \"test2\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/users/0?first_name=test_prenom&last_name=test2",
+					"raw": "http://localhost:3000/api/users/0?firstName=test_prenom&lastName=test2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -372,11 +404,11 @@
 					],
 					"query": [
 						{
-							"key": "first_name",
+							"key": "firstName",
 							"value": "test_prenom"
 						},
 						{
-							"key": "last_name",
+							"key": "lastName",
 							"value": "test2"
 						}
 					]
@@ -443,7 +475,7 @@
 		{
 			"name": "locations/0/sports/0",
 			"request": {
-				"method": "PUT",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
@@ -468,16 +500,23 @@
 			"response": []
 		},
 		{
-			"name": "localtions/0?name=test&postcode=59553",
+			"name": "localtions/0",
 			"request": {
 				"method": "PATCH",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": ""
+					"raw": "{\n\t\"name\": \"test\",\n\t\"postcode\": 59553\n}"
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/locations/0?name=test&postcode=59553",
+					"raw": "http://localhost:3000/api/locations/0",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -487,16 +526,6 @@
 						"api",
 						"locations",
 						"0"
-					],
-					"query": [
-						{
-							"key": "name",
-							"value": "test"
-						},
-						{
-							"key": "postcode",
-							"value": "59553"
-						}
 					]
 				}
 			},
@@ -657,6 +686,48 @@
 					"path": [
 						"api",
 						"messages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "gui@dev.fr",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "motdepasse",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"login"
 					]
 				}
 			},

@@ -11,8 +11,8 @@ const init = require('./db/init');
 var passport = require("passport")
     , LocalStrategy = require('passport-local').Strategy
     , BasicStrategy = require('passport-http').BasicStrategy;
-const logger_app = require('./lib/log_app');
-const logger_user = require('./lib/log_user');
+//const logger_app = require('./lib/log_app');
+//const logger = require('./lib/log_user');
 const userDB = require('./db/profil');
 // build the app
 
@@ -41,6 +41,8 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+//app.use(logger);
 
 passport.use(new LocalStrategy(
     function(username, password, done) {
@@ -91,7 +93,7 @@ const api = {
 
 app.post('/api/login/',
     passport.authenticate('local', {session: true}), (req, res) => {
-        logger_user.info("authentification");
+        //logger_user.info("authentification");
         res.status(200).send()
     }
 );
@@ -100,6 +102,7 @@ app.post('/api/login/',
 app.use((req, res, next) => {
     console.log("req.isAuthenticated() " + req.isAuthenticated());
     if (!req.isAuthenticated()){
+        //logger_user.info("deja authentifié");
         res.status(403).send("not authentificate");
     } else {
         next();
